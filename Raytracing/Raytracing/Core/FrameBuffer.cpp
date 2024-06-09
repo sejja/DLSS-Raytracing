@@ -24,7 +24,7 @@ namespace Core {
     *
 	*   Returns the Color of a certain pixel given it's coordinates
     */ // ---------------------------------------------------------------------
-    sf::Color FrameBuffer::GetColor(const std::size_t x, const std::size_t y) const {
+    sf::Color FrameBuffer::GetColor(const std::size_t x, const std::size_t y) const noexcept {
         std::size_t indexi = pixelIndex(x, y);
 
         return sf::Color(
@@ -40,7 +40,7 @@ namespace Core {
     *
 	*   Sets the Color of a Pixel given it's coordinates and the color
     */ // ---------------------------------------------------------------------
-    void FrameBuffer::SetColor(const std::size_t x, const std::size_t y, const sf::Color& color) {
+    void FrameBuffer::SetColor(const std::size_t x, const std::size_t y, const sf::Color& color) noexcept {
         std::size_t indexi = pixelIndex(x, y);
 
         mPixels[indexi++] = color.r;
@@ -71,23 +71,5 @@ namespace Core {
         newTexture.create(static_cast<unsigned>(mWidth), static_cast<unsigned>(mHeight));
         mTexture = newTexture;
         mPixels = std::make_unique<sf::Uint8[]>(getBufferPixelSize());
-    }
-
-    // ------------------------------------------------------------------------
-	/*! Get Width
-    *
-	*   Returns the Width of the FrameBuffer
-    */ // ---------------------------------------------------------------------
-    std::size_t FrameBuffer::GetWidth() const {
-        return mWidth;
-    }
-
-    // ------------------------------------------------------------------------
-    /*! Get Height
-    *
-    *   Returns the Height of the FrameBuffer
-    */ // ---------------------------------------------------------------------
-    std::size_t FrameBuffer::GetHeight() const {
-        return mHeight;
     }
 }

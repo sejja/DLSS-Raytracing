@@ -12,6 +12,7 @@
 #include <SFML/Graphics.hpp>
 #include "FrameBuffer.h"
 #include "../CommonDefines.h"
+#include "../Composition/Scene.h"
 
 namespace Core {
 	class RaytracingApp {
@@ -27,7 +28,7 @@ namespace Core {
 	#pragma region //Methods
 		void Execute();
 		bool Init();
-		void Event(sf::Event& event);
+		void Event(sf::Event& event) noexcept;
 		void Loop();
 		void Render();
 		void Exit();
@@ -38,6 +39,7 @@ namespace Core {
 		bool mRunning;
 		sf::RenderWindow mWindow;
 		FrameBuffer mFrameBuffer;
+		Composition::Scene mScene;
 	#pragma endregion
 	};
 }
