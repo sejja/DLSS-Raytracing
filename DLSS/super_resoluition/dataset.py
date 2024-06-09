@@ -33,7 +33,6 @@ class SRDataset(Dataset):
 
 if __name__ == "__main__":
 
-    import tkinter as tk
     import matplotlib
     import matplotlib.pyplot as plt
     matplotlib.use('TkAgg')
@@ -42,8 +41,8 @@ if __name__ == "__main__":
 
     for low_res, high_res in dataset:
 
-        low_res = low_res.swapaxes(0, 2)
-        high_res = high_res.swapaxes(0, 2)
+        low_res = low_res.permute(1, 2, 0)
+        high_res = high_res.permute(1, 2, 0)
 
         fig, axes = plt.subplots(1, 2, figsize=(12,6))
 
@@ -53,5 +52,6 @@ if __name__ == "__main__":
         axes[1].imshow(high_res)
         axes[1].set_title("High Resolution")
 
+        plt.tight_layout()
         plt.show()
 
