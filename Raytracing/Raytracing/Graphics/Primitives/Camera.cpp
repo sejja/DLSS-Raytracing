@@ -25,11 +25,16 @@ namespace Graphics {
 		*
 		*   Generates a Ray from the Camera Position to the given coordinates
 		*/ // ---------------------------------------------------------------------
-		Trace::Ray Camera::GenerateRay(const float x, const float y) const noexcept {
-			glm::vec3 screenWorldPart1 = mProjectionScreenCenter + (mProjectionScreenU * x);
-			glm::vec3 screenWorldCoordinate = screenWorldPart1 + (mProjectionScreenV * y);
-			
-			return Trace::Ray(mCameraPosition, screenWorldCoordinate);
+		bool Camera::GenerateRay(const double x, const double y, Trace::Ray& cameraRay) const noexcept {
+			// Compute the location of the screen point in world coordinates.
+			glm::dvec3 screenWorldPart1 = mProjectionScreenCenter + (mProjectionScreenU * x);
+			glm::dvec3 screenWorldCoordinate = screenWorldPart1 + (mProjectionScreenV * y);
+
+			// Use this point along with the camera position to compute the ray.
+			cameraRay.SetOrigin(mCameraPosition);
+			cameraRay.SetEndPoint(screenWorldCoordinate);
+
+			return true;
 		}
 
 		// ------------------------------------------------------------------------
@@ -38,12 +43,19 @@ namespace Graphics {
 		*   Calculates the Camera Geometry
 		*/ // ---------------------------------------------------------------------
 		void Camera::UpdateCameraGeometry() {
+			// First, compute the vector from the camera position to the LookAt position.
 			mAlignmentVector = glm::normalize(mCameraLookAt - mCameraPosition);
-			mProjectionScreenU = glm::normalize(glm::cross(mCameraUp, mAlignmentVector));
-			mProjectionScreenV = glm::normalize(glm::cross(mAlignmentVector, mProjectionScreenU));
-			mProjectionScreenCenter = mCameraPosition + mCameraLength * mAlignmentVector;
+
+			// Second, compute the U and V vectors.
+			mProjectionScreenU = glm::normalize(glm::cross(mAlignmentVector, mCameraUp));
+			mProjectionScreenV = glm::normalize(glm::cross(mProjectionScreenU, mAlignmentVector));
+
+			// Thirdly, compute the positon of the centre point of the screen.
+			mProjectionScreenCenter = mCameraPosition + (mCameraLength * mAlignmentVector);
+
+			// Modify the U and V vectors to match the size and aspect ratio.
 			mProjectionScreenU = mProjectionScreenU * mCameraHorizonSize;
-			mProjectionScreenV = mProjectionScreenV * mCameraHorizonSize / mCameraAspectRatio;
+			mProjectionScreenV = mProjectionScreenV * (mCameraHorizonSize / mCameraAspectRatio);
 		}
 
 		// ------------------------------------------------------------------------

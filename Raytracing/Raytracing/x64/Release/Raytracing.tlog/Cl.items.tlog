@@ -1,3 +1,8 @@
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Composition\Object.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Release\Object.obj
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Composition\Scene.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Release\Scene.obj
 C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Core\FrameBuffer.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Release\FrameBuffer.obj
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\Camera.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Release\Camera.obj
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\Sphere.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Release\Sphere.obj
 C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Raytracing.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Release\Raytracing.obj
 C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Core\RaytracingApp.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Release\RaytracingApp.obj
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Trace\Ray.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Release\Ray.obj

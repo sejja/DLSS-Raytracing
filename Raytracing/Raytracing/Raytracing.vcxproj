@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -133,19 +133,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Composition\Object.cpp" />
     <ClCompile Include="Composition\Scene.cpp" />
     <ClCompile Include="Core\FrameBuffer.cpp" />
     <ClCompile Include="Graphics\Primitives\Camera.cpp" />
+    <ClCompile Include="Graphics\Primitives\Sphere.cpp" />
     <ClCompile Include="Raytracing.cpp" />
     <ClCompile Include="Core\RaytracingApp.cpp" />
     <ClCompile Include="Trace\Ray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonDefines.h" />
+    <ClInclude Include="Composition\Object.h" />
     <ClInclude Include="Composition\Scene.h" />
     <ClInclude Include="Core\FrameBuffer.h" />
     <ClInclude Include="Core\RaytracingApp.h" />
     <ClInclude Include="Graphics\Primitives\Camera.h" />
+    <ClInclude Include="Graphics\Primitives\Sphere.h" />
     <ClInclude Include="Trace\Ray.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

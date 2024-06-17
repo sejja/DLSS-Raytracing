@@ -45,6 +45,10 @@ namespace Core {
 	bool RaytracingApp::Init() {
 		mRunning = true;
 		mFrameBuffer.SetSize(mWindow.getSize().x, mWindow.getSize().y);
+		mWindow.clear();
+		mScene.Render(mFrameBuffer);
+		mFrameBuffer.DrawToRenderTarget(mWindow, sf::RenderStates::Default);
+		mWindow.display();
 		return mRunning;
 	}
 
@@ -73,10 +77,10 @@ namespace Core {
 	*   Renders the final image to the viewport
 	*/ // ---------------------------------------------------------------------
 	void RaytracingApp::Render() {
-		mWindow.clear();
-		mScene.Render(mFrameBuffer);
-		mFrameBuffer.DrawToRenderTarget(mWindow, sf::RenderStates::Default);
-		mWindow.display();
+		//mWindow.clear();
+		//mScene.Render(mFrameBuffer);
+		//mFrameBuffer.DrawToRenderTarget(mWindow, sf::RenderStates::Default);
+		//mWindow.display();
 	}
 	
 	// ------------------------------------------------------------------------

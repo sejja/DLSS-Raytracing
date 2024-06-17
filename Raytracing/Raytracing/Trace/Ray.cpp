@@ -12,6 +12,14 @@ namespace Trace {
 	// ------------------------------------------------------------------------
 	/*! Constructor
 	*
+	*   Constructs a dummy Ray
+	*/ // ---------------------------------------------------------------------
+	Ray::Ray() noexcept :
+		mOrigin(), mEndPoint() {}
+
+	// ------------------------------------------------------------------------
+	/*! Constructor
+	*
 	*   Constructs a Ray with the given origin and endpoint
 	*/ // ---------------------------------------------------------------------
 	Ray::Ray(const glm::vec3& origin, const glm::vec3& endpoint) noexcept

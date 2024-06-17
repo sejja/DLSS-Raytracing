@@ -37,23 +37,23 @@ namespace Graphics {
 			DONTDISCARD inline float GetLength() const noexcept;
 			DONTDISCARD inline float GetHorizonSize() const noexcept;
 			DONTDISCARD inline float GetAspectRatio() const noexcept;
-			DONTDISCARD Trace::Ray GenerateRay(const float x, const float y) const noexcept;
+			bool GenerateRay(const double x, const double y, Trace::Ray& cameraRay) const noexcept;
 
 		private:
 			void UpdateCameraGeometry();
 		#pragma endregion
 
 		#pragma region //Members
-			glm::vec3 mCameraPosition;
-			glm::vec3 mCameraLookAt;
-			glm::vec3 mCameraUp;
-			float mCameraLength;
-			float mCameraHorizonSize;
-			float mCameraAspectRatio;
-			glm::vec3 mAlignmentVector;
-			glm::vec3 mProjectionScreenU;
-			glm::vec3 mProjectionScreenV;
-			glm::vec3 mProjectionScreenCenter;
+			glm::dvec3 mCameraPosition;
+			glm::dvec3 mCameraLookAt;
+			glm::dvec3 mCameraUp;
+			double mCameraLength;
+			double mCameraHorizonSize;
+			double mCameraAspectRatio;
+			glm::dvec3 mAlignmentVector;
+			glm::dvec3 mProjectionScreenU;
+			glm::dvec3 mProjectionScreenV;
+			glm::dvec3 mProjectionScreenCenter;
 		#pragma endregion
 		};
 

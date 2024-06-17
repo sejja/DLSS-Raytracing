@@ -1,6 +1,37 @@
-﻿  FrameBuffer.cpp
-sfml-graphics-s-d.lib(Transformable.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(Transformable.obj)' or at ''; linking object as if no debug info
+﻿  Scene.cpp
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\Camera.h(120,11): warning C4244: 'return': conversion from 'const double' to 'float', possible loss of data
+  (compiling source file 'Composition/Scene.cpp')
+  
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\Camera.h(129,11): warning C4244: 'return': conversion from 'const double' to 'float', possible loss of data
+  (compiling source file 'Composition/Scene.cpp')
+  
+  Camera.cpp
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\Camera.h(120,11): warning C4244: 'return': conversion from 'const double' to 'float', possible loss of data
+  (compiling source file 'Graphics/Primitives/Camera.cpp')
+  
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\Camera.h(129,11): warning C4244: 'return': conversion from 'const double' to 'float', possible loss of data
+  (compiling source file 'Graphics/Primitives/Camera.cpp')
+  
+  Raytracing.cpp
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\Camera.h(120,11): warning C4244: 'return': conversion from 'const double' to 'float', possible loss of data
+  (compiling source file 'Raytracing.cpp')
+  
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\Camera.h(129,11): warning C4244: 'return': conversion from 'const double' to 'float', possible loss of data
+  (compiling source file 'Raytracing.cpp')
+  
+  RaytracingApp.cpp
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\Camera.h(120,11): warning C4244: 'return': conversion from 'const double' to 'float', possible loss of data
+  (compiling source file 'Core/RaytracingApp.cpp')
+  
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\Camera.h(129,11): warning C4244: 'return': conversion from 'const double' to 'float', possible loss of data
+  (compiling source file 'Core/RaytracingApp.cpp')
+  
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\Camera.h(138,11): warning C4244: 'return': conversion from 'const double' to 'float', possible loss of data
+  (compiling source file 'Core/RaytracingApp.cpp')
+  
+  Generating Code...
 sfml-graphics-s-d.lib(Color.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(Color.obj)' or at ''; linking object as if no debug info
+sfml-graphics-s-d.lib(Transformable.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(Transformable.obj)' or at ''; linking object as if no debug info
 sfml-graphics-s-d.lib(Texture.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(Texture.obj)' or at ''; linking object as if no debug info
 sfml-graphics-s-d.lib(RenderTarget.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(RenderTarget.obj)' or at ''; linking object as if no debug info
 sfml-graphics-s-d.lib(Sprite.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(Sprite.obj)' or at ''; linking object as if no debug info

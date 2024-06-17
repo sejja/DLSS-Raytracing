@@ -16,10 +16,13 @@ namespace Trace {
 	class Ray {
 #pragma region //Constructor
 	public:
+		Ray() noexcept;
 		Ray(const glm::vec3& origin, const glm::vec3& endpoint) noexcept;
 #pragma endregion
 
 #pragma region //Methods
+		inline void SetOrigin(const glm::vec3& origin) noexcept;
+		inline void SetEndPoint(const glm::vec3& endpoint) noexcept;
 		DONTDISCARD inline glm::vec3 GetOrigin() const noexcept;
 		DONTDISCARD inline glm::vec3 GetEndPoint() const noexcept;
 #pragma endregion
@@ -29,6 +32,24 @@ namespace Trace {
 		glm::vec3 mOrigin, mEndPoint;
 #pragma endregion
 	};
+
+	// ------------------------------------------------------------------------
+	/*! Get Origin
+	*
+	*   Gets the Origin Point of the Ray
+	*/ // ---------------------------------------------------------------------
+	inline void Ray::SetOrigin(const glm::vec3& origin) noexcept {
+		mOrigin = origin;
+	}
+
+	// ------------------------------------------------------------------------
+	/*! Get Origin
+	*
+	*   Gets the Origin Point of the Ray
+	*/ // ---------------------------------------------------------------------
+	inline void Ray::SetEndPoint(const glm::vec3& endpoint) noexcept {
+		mEndPoint = endpoint;
+	}
 
 	// ------------------------------------------------------------------------
 	/*! Get Origin
