@@ -22,12 +22,12 @@ namespace Graphics {
 		#pragma endregion
 
 		#pragma region //Methods
-			void SetPosition(const glm::vec3& position);
-			void SetLookAt(const glm::vec3& direction);
-			void SetUp(const glm::vec3& up);
-			void SetLength(const float length);
-			void SetHorizonSize(const float size);
-			void SetAspectRatio(const float ratio);
+			void SetPosition(const glm::vec3& position) noexcept;
+			void SetLookAt(const glm::vec3& direction) noexcept;
+			void SetUp(const glm::vec3& up) noexcept;
+			void SetLength(const float length) noexcept;
+			void SetHorizonSize(const float size) noexcept;
+			void SetAspectRatio(const float ratio) noexcept;
 			DONTDISCARD inline glm::vec3 GetPosition() const noexcept;
 			DONTDISCARD inline glm::vec3 GetLookAt() const noexcept;
 			DONTDISCARD inline glm::vec3 GetUp() const noexcept;
@@ -37,23 +37,23 @@ namespace Graphics {
 			DONTDISCARD inline float GetLength() const noexcept;
 			DONTDISCARD inline float GetHorizonSize() const noexcept;
 			DONTDISCARD inline float GetAspectRatio() const noexcept;
-			bool GenerateRay(const double x, const double y, Trace::Ray& cameraRay) const noexcept;
+			bool GenerateRay(const float x, const float y, Trace::Ray& cameraRay) const noexcept;
 
 		private:
-			void UpdateCameraGeometry();
+			void UpdateCameraGeometry() noexcept;
 		#pragma endregion
-
+		
 		#pragma region //Members
-			glm::dvec3 mCameraPosition;
-			glm::dvec3 mCameraLookAt;
-			glm::dvec3 mCameraUp;
-			double mCameraLength;
-			double mCameraHorizonSize;
-			double mCameraAspectRatio;
-			glm::dvec3 mAlignmentVector;
-			glm::dvec3 mProjectionScreenU;
-			glm::dvec3 mProjectionScreenV;
-			glm::dvec3 mProjectionScreenCenter;
+			glm::vec3 mCameraPosition;
+			glm::vec3 mCameraLookAt;
+			glm::vec3 mCameraUp;
+			float mCameraLength;
+			float mCameraHorizonSize;
+			float mCameraAspectRatio;
+			glm::vec3 mAlignmentVector;
+			glm::vec3 mProjectionScreenU;
+			glm::vec3 mProjectionScreenV;
+			glm::vec3 mProjectionScreenCenter;
 		#pragma endregion
 		};
 

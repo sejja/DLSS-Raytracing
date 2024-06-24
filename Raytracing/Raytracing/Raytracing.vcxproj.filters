@@ -39,10 +39,13 @@
     <ClCompile Include="Graphics\Primitives\Sphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Primitives\Light.cpp">
+    <ClCompile Include="Graphics\Primitives\Lighting\Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Primitives\PointLight.cpp">
+    <ClCompile Include="Graphics\Primitives\Lighting\PointLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,10 +74,13 @@
     <ClInclude Include="Graphics\Primitives\Sphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Primitives\Light.h">
+    <ClInclude Include="Graphics\Primitives\Lighting\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Primitives\PointLight.h">
+    <ClInclude Include="Graphics\Primitives\Lighting\PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

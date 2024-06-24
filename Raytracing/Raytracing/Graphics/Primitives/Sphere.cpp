@@ -32,59 +32,38 @@ namespace Graphics {
 		// ------------------------------------------------------------------------
 		/*! Test Intersection
 		*
-		*
+		*   Tests whether a ray intersects with the sphere.
 		*/ // ---------------------------------------------------------------------
-		bool Sphere::TestIntersection(const Trace::Ray& ray, glm::vec3& inpoint, glm::vec3& innormal, glm::vec4& outcolor) {
-			// Compute the values of a, b and c.
-			glm::vec3 vhat = glm::normalize(ray.GetEndPoint() - ray.GetOrigin());
+		bool Sphere::TestIntersection(const Trace::Ray& ray, glm::vec3& inpoint, glm::vec3& innormal, glm::vec4& outcolor) noexcept {
 
-			/* Note that a is equal to the squared magnitude of the
-				direction of the cast ray. As this will be a unit vector,
-				we can conclude that the value of 'a' will always be 1. */
-				// a = 1.0;
+			// Transform the ray into the object's space.
+			const Trace::Ray newRay = mTransform.TransformRay(ray);
 
-				// Calculate b.
-			float b = 2.0 * glm::dot(ray.GetOrigin(), vhat);
-
-			// Calculate c.
-			float c = glm::dot(ray.GetOrigin(), ray.GetOrigin()) - 1.0;
+			const float b = 2.f * glm::dot(newRay.GetOrigin(), glm::normalize(newRay.GetEndPoint() - newRay.GetOrigin()));
 
 			// Test whether we actually have an intersection.
-			float intTest = (b * b) - 4.0 * c;
+			const float intTest = (b * b) - 4.f * (glm::dot(newRay.GetOrigin(), newRay.GetOrigin()) - 1.f);
 
-			if (intTest > 0.0)
-			{
-				float numSQRT = sqrtf(intTest);
-				float t1 = (-b + numSQRT) / 2.0;
-				float t2 = (-b - numSQRT) / 2.0;
+			// If the discriminant is less than 0, then there is no intersection.
+			if (intTest > 0.f) {
+				const float numSQRT = sqrtf(intTest);
+				const float t1 = (-b + numSQRT) / 2.f;
+				const float t2 = (-b - numSQRT) / 2.f;
 
 				/* If either t1 or t2 are negative, then at least part of the object is
 					behind the camera and so we will ignore it. */
 				if ((t1 < 0.0) || (t2 < 0.0))
-				{
 					return false;
-				}
-				else
-				{
+				else {
 					// Determine which point of intersection was closest to the camera.
-					if (t1 < t2)
-					{
-						inpoint = ray.GetOrigin() + (vhat * t1);
-					}
-					else
-					{
-						inpoint = ray.GetOrigin() + (vhat * t2);
-					}
-
-					innormal = glm::normalize(inpoint);
+					inpoint = mTransform.ApplyTransform(newRay.GetOrigin() + (glm::normalize(newRay.GetEndPoint() - newRay.GetOrigin()) * ((t1 < t2) ? t1 : t2)));
+					innormal = glm::normalize(inpoint - mTransform.ApplyTransform(glm::vec3(0.0f, 0.0f, 0.0f)));
+					outcolor = mColor;
 				}
 
-				return true;
-			}
-			else
-			{
+				return true; 
+			} else
 				return false;
-			}
 		}
 	}
 }

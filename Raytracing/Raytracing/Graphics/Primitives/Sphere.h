@@ -10,6 +10,7 @@
 #define _SPHERE__H_
 
 #include "../../Composition/Object.h"
+#include "../../Math/Transform.h"
 
 namespace Graphics {
 	namespace Primitives {
@@ -21,7 +22,7 @@ namespace Graphics {
 		#pragma endregion
 
 		#pragma region //Methods
-			virtual bool TestIntersection(const Trace::Ray& ray, glm::vec3& inpoint, glm::vec3& innormal, glm::vec4& outcolor) override;
+			bool TestIntersection(const Trace::Ray& ray, glm::vec3& inpoint, glm::vec3& innormal, glm::vec4& outcolor) noexcept override;
 		#pragma endregion
 		};
 	}

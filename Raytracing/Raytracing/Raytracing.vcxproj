@@ -137,9 +137,10 @@
     <ClCompile Include="Composition\Scene.cpp" />
     <ClCompile Include="Core\FrameBuffer.cpp" />
     <ClCompile Include="Graphics\Primitives\Camera.cpp" />
-    <ClCompile Include="Graphics\Primitives\Light.cpp" />
-    <ClCompile Include="Graphics\Primitives\PointLight.cpp" />
+    <ClCompile Include="Graphics\Primitives\Lighting\Light.cpp" />
+    <ClCompile Include="Graphics\Primitives\Lighting\PointLight.cpp" />
     <ClCompile Include="Graphics\Primitives\Sphere.cpp" />
+    <ClCompile Include="Math\Transform.cpp" />
     <ClCompile Include="Raytracing.cpp" />
     <ClCompile Include="Core\RaytracingApp.cpp" />
     <ClCompile Include="Trace\Ray.cpp" />
@@ -151,9 +152,10 @@
     <ClInclude Include="Core\FrameBuffer.h" />
     <ClInclude Include="Core\RaytracingApp.h" />
     <ClInclude Include="Graphics\Primitives\Camera.h" />
-    <ClInclude Include="Graphics\Primitives\Light.h" />
-    <ClInclude Include="Graphics\Primitives\PointLight.h" />
+    <ClInclude Include="Graphics\Primitives\Lighting\Light.h" />
+    <ClInclude Include="Graphics\Primitives\Lighting\PointLight.h" />
     <ClInclude Include="Graphics\Primitives\Sphere.h" />
+    <ClInclude Include="Math\Transform.h" />
     <ClInclude Include="Trace\Ray.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

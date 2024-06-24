@@ -14,7 +14,7 @@
 #include "../Core/FrameBuffer.h"
 #include "../Graphics/Primitives/Sphere.h"
 #include "../Graphics/Primitives/Camera.h"
-#include "../Graphics/Primitives/Light.h"
+#include "../Graphics/Primitives/Lighting/Light.h"
 
 namespace Composition {
 	class Scene {
@@ -31,7 +31,7 @@ namespace Composition {
 	private:
 		Graphics::Primitives::Camera mCamera;
 		std::vector<std::shared_ptr<Composition::Object>> mObjects;
-		std::vector<std::shared_ptr<Graphics::Primitives::Light>> mLights;
+		std::vector<std::shared_ptr<Graphics::Primitives::Lighting::Light>> mLights;
 	#pragma endregion
 	};
 }
