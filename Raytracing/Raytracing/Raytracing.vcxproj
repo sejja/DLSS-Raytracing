@@ -137,6 +137,8 @@
     <ClCompile Include="Composition\Scene.cpp" />
     <ClCompile Include="Core\FrameBuffer.cpp" />
     <ClCompile Include="Graphics\Primitives\Camera.cpp" />
+    <ClCompile Include="Graphics\Primitives\Light.cpp" />
+    <ClCompile Include="Graphics\Primitives\PointLight.cpp" />
     <ClCompile Include="Graphics\Primitives\Sphere.cpp" />
     <ClCompile Include="Raytracing.cpp" />
     <ClCompile Include="Core\RaytracingApp.cpp" />
@@ -149,6 +151,8 @@
     <ClInclude Include="Core\FrameBuffer.h" />
     <ClInclude Include="Core\RaytracingApp.h" />
     <ClInclude Include="Graphics\Primitives\Camera.h" />
+    <ClInclude Include="Graphics\Primitives\Light.h" />
+    <ClInclude Include="Graphics\Primitives\PointLight.h" />
     <ClInclude Include="Graphics\Primitives\Sphere.h" />
     <ClInclude Include="Trace\Ray.h" />
   </ItemGroup>

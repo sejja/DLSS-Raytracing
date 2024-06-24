@@ -35,7 +35,8 @@ namespace Graphics {
 		*
 		*/ // ---------------------------------------------------------------------
 		bool Sphere::TestIntersection(const Trace::Ray& ray, glm::vec3& inpoint, glm::vec3& innormal, glm::vec4& outcolor) {
-			auto vhat = glm::normalize(ray.GetOrigin() - ray.GetEndPoint());
+			// Compute the values of a, b and c.
+			glm::vec3 vhat = glm::normalize(ray.GetEndPoint() - ray.GetOrigin());
 
 			/* Note that a is equal to the squared magnitude of the
 				direction of the cast ray. As this will be a unit vector,
@@ -43,33 +44,45 @@ namespace Graphics {
 				// a = 1.0;
 
 				// Calculate b.
-			double b = 2.0 * glm::dot(ray.GetOrigin(), vhat);
+			float b = 2.0 * glm::dot(ray.GetOrigin(), vhat);
 
 			// Calculate c.
-			double c = glm::dot(ray.GetOrigin(), ray.GetOrigin()) - 1.0;
+			float c = glm::dot(ray.GetOrigin(), ray.GetOrigin()) - 1.0;
 
 			// Test whether we actually have an intersection.
-			double intTest = (b * b) - 4.0 * c;
+			float intTest = (b * b) - 4.0 * c;
 
-			if (intTest > 0) {
-				double numSQRT = sqrt(intTest);
-				float t1 = (-b+numSQRT) / 2.f;
-				float t2 = (-b - numSQRT) / 2.f;
+			if (intTest > 0.0)
+			{
+				float numSQRT = sqrtf(intTest);
+				float t1 = (-b + numSQRT) / 2.0;
+				float t2 = (-b - numSQRT) / 2.0;
 
-
-				 {
-
-					if (t1 < t2) {
+				/* If either t1 or t2 are negative, then at least part of the object is
+					behind the camera and so we will ignore it. */
+				if ((t1 < 0.0) || (t2 < 0.0))
+				{
+					return false;
+				}
+				else
+				{
+					// Determine which point of intersection was closest to the camera.
+					if (t1 < t2)
+					{
 						inpoint = ray.GetOrigin() + (vhat * t1);
 					}
-					else {
+					else
+					{
 						inpoint = ray.GetOrigin() + (vhat * t2);
 					}
 
-					return true;
+					innormal = glm::normalize(inpoint);
 				}
+
+				return true;
 			}
-			else {
+			else
+			{
 				return false;
 			}
 		}
