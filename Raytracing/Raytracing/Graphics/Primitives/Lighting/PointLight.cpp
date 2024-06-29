@@ -34,17 +34,50 @@ namespace Graphics {
 			*
 			*   Computes the lighting for the given point
 			*/ // ---------------------------------------------------------------------
-			bool PointLight::ComputeLighting(const Trace::Ray& ray, const glm::vec3& inpoint, const glm::vec3& innormal,
+			bool PointLight::ComputeLighting(const glm::vec3& inpoint, const glm::vec3& innormal,
 				const std::vector<std::shared_ptr<Composition::Object>>& objlist,
 				const std::shared_ptr<Composition::Object>& obj,
 				glm::vec3& color, float& intensity) noexcept {
 
-				const float angle = acos(glm::dot(innormal, glm::normalize(mPosition - inpoint)));
+				const glm::vec3 lightDir = glm::normalize(mPosition - inpoint);
+				const glm::vec3 startPoint = inpoint;
+				const Trace::Ray lightRay(startPoint, startPoint + lightDir);
 
-				if (angle > 1.5708) return false;
-				color = mColor;
-				intensity = mIntensity * (1.f - (angle / 1.5708f));
-				return true;
+				glm::vec3 poi;
+				glm::vec3 poiNormal;
+				glm::vec4 poiColor;
+				bool validInt = false;
+
+				// Check for intersections with other objects.
+				for (auto& sceneObject : objlist) {
+					// If the object is not the current object.
+					if (sceneObject != obj)
+						validInt = sceneObject->TestIntersection(lightRay, poi, poiNormal, poiColor);
+
+					if (validInt) break;
+				}
+
+				// If there is no intersection, then we have illumination.
+				if (!validInt) {
+					const float angle = acos(glm::dot(innormal, lightDir));
+
+					if (angle > 1.5708) {
+						// No illumination.
+						color = mColor;
+						intensity = 0.0;
+						return false;
+					} else {
+						// We do have illumination.
+						color = mColor;
+						intensity = mIntensity * (1.f - (angle / 1.5708f));
+						return true;
+					}
+				} else {
+					// Shadow, so no illumination.
+					color = mColor;
+					intensity = 0.0;
+					return false;
+				}
 			}
 		}
 	}

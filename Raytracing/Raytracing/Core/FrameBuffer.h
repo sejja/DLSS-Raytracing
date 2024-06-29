@@ -28,11 +28,13 @@ namespace Core {
         DONTDISCARD inline std::size_t GetHeight() const noexcept;
         DONTDISCARD sf::Color GetColor(const std::size_t x, const std::size_t y) const noexcept;
     private:
+        void ComputeMaxValues();
         DONTDISCARD inline std::size_t getBufferPixelSize() const;
         DONTDISCARD inline std::size_t pixelIndex(const std::size_t x, const std::size_t y) const;
     #pragma endregion
 
     #pragma endregion //Members
+		float mRed, mGreen, mBlue, mGlobalMax;
         std::size_t mWidth, mHeight;
 		std::unique_ptr<sf::Uint8[]> mPixels;
 		sf::Texture mTexture;

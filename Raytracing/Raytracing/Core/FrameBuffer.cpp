@@ -55,6 +55,19 @@ namespace Core {
 	*   Converts the Pixels into a Texture and draws it to a Render Target
     */ // ---------------------------------------------------------------------
     void FrameBuffer::DrawToRenderTarget(sf::RenderTarget& target, sf::RenderStates states) {
+		ComputeMaxValues();
+
+		// Loop over each pixel in the FrameBuffer
+		for (size_t x = 0; x < mWidth; x++)
+
+			// Loop over each pixel in the FrameBuffer
+            for (size_t y = 0; y < mHeight; y++) {
+				SetColor(x, y, sf::Color{ static_cast<sf::Uint8>((GetColor(x, y).r / mGlobalMax) * 255),
+                                                  static_cast<sf::Uint8>((GetColor(x, y).g / mGlobalMax) * 255), 
+                                                  static_cast<sf::Uint8>((GetColor(x, y).b / mGlobalMax) * 255), 
+                                                  255 });
+            }
+
         mTexture.update(mPixels.get());
         target.draw(sf::Sprite(mTexture), states);
     }
@@ -71,5 +84,30 @@ namespace Core {
         newTexture.create(static_cast<unsigned>(mWidth), static_cast<unsigned>(mHeight));
         mTexture = newTexture;
         mPixels = std::make_unique<sf::Uint8[]>(getBufferPixelSize());
+    }
+
+    // ------------------------------------------------------------------------
+    /*! Compute Max Values
+    *
+	*   Computes the Maximum values for Dynamic Range
+    */ // ---------------------------------------------------------------------
+    void  FrameBuffer::ComputeMaxValues() {
+		mRed = 0.0f;
+		mGreen = 0.0f;
+		mBlue = 0.0f;
+		mGlobalMax = 0.0f;
+
+		// Loop over each pixel in the FrameBuffer
+        for (size_t x = 0; x < mWidth; x++) {
+			// Loop over each pixel in the FrameBuffer
+			for (size_t y = 0; y < mHeight; y++) {
+				const sf::Color color = GetColor(x, y);
+				mRed = std::max(mRed, static_cast<float>(color.r));
+				mGreen = std::max(mGreen, static_cast<float>(color.g));
+				mBlue = std::max(mBlue, static_cast<float>(color.b));
+			}
+        }
+
+        mGlobalMax = std::max(mGlobalMax, std::max(mRed, std::max(mGreen, mBlue)));
     }
 }

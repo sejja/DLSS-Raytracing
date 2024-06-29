@@ -37,7 +37,7 @@ namespace Graphics {
 		bool Sphere::TestIntersection(const Trace::Ray& ray, glm::vec3& inpoint, glm::vec3& innormal, glm::vec4& outcolor) noexcept {
 
 			// Transform the ray into the object's space.
-			const Trace::Ray newRay = mTransform.TransformRay(ray);
+			const Trace::Ray newRay = mTransform.InverseTransformRay(ray);
 
 			const float b = 2.f * glm::dot(newRay.GetOrigin(), glm::normalize(newRay.GetEndPoint() - newRay.GetOrigin()));
 

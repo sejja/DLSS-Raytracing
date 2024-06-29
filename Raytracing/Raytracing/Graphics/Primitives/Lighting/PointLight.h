@@ -22,7 +22,7 @@ namespace Graphics {
 #pragma endregion
 
 #pragma region //Methods
-				DONTDISCARD bool ComputeLighting(const Trace::Ray& ray, const glm::vec3& inpoint, const glm::vec3& innormal,
+				DONTDISCARD bool ComputeLighting(const glm::vec3& inpoint, const glm::vec3& innormal,
 					const std::vector<std::shared_ptr<Composition::Object>>& objlist,
 					const std::shared_ptr<Composition::Object>& obj,
 					glm::vec3& color, float& intensity) noexcept override;

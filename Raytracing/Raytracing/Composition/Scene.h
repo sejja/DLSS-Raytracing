@@ -13,6 +13,7 @@
 #include <vector>
 #include "../Core/FrameBuffer.h"
 #include "../Graphics/Primitives/Sphere.h"
+#include "../Graphics/Primitives/Plane.h"
 #include "../Graphics/Primitives/Camera.h"
 #include "../Graphics/Primitives/Lighting/Light.h"
 

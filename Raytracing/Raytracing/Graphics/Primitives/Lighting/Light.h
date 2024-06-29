@@ -25,7 +25,7 @@ namespace Graphics {
 #pragma endregion
 
 #pragma region //Methods
-				DONTDISCARD virtual inline bool ComputeLighting(const Trace::Ray& ray, const glm::vec3& inpoint, const glm::vec3& innormal,
+				DONTDISCARD virtual inline bool ComputeLighting( const glm::vec3& inpoint, const glm::vec3& innormal,
 					const std::vector<std::shared_ptr<Composition::Object>>& objlist,
 					const std::shared_ptr<Composition::Object>& obj,
 					glm::vec3& color, float& intensity);
@@ -46,7 +46,7 @@ namespace Graphics {
 			*
 			*   Computes the lighting for the given ray
 			*/ // ---------------------------------------------------------------------
-			bool Light::ComputeLighting(const Trace::Ray& ray, const glm::vec3& inpoint, const glm::vec3& innormal,
+			bool Light::ComputeLighting(const glm::vec3& inpoint, const glm::vec3& innormal,
 				const std::vector<std::shared_ptr<Composition::Object>>& objlist,
 				const std::shared_ptr<Composition::Object>& obj,
 				glm::vec3& color, float& intensity) {

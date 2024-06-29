@@ -139,6 +139,7 @@
     <ClCompile Include="Graphics\Primitives\Camera.cpp" />
     <ClCompile Include="Graphics\Primitives\Lighting\Light.cpp" />
     <ClCompile Include="Graphics\Primitives\Lighting\PointLight.cpp" />
+    <ClCompile Include="Graphics\Primitives\Plane.cpp" />
     <ClCompile Include="Graphics\Primitives\Sphere.cpp" />
     <ClCompile Include="Math\Transform.cpp" />
     <ClCompile Include="Raytracing.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Graphics\Primitives\Camera.h" />
     <ClInclude Include="Graphics\Primitives\Lighting\Light.h" />
     <ClInclude Include="Graphics\Primitives\Lighting\PointLight.h" />
+    <ClInclude Include="Graphics\Primitives\Plane.h" />
     <ClInclude Include="Graphics\Primitives\Sphere.h" />
     <ClInclude Include="Math\Transform.h" />
     <ClInclude Include="Trace\Ray.h" />

@@ -47,8 +47,8 @@ namespace Math {
 		trf = glm::rotate(trf, rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
 		trf = glm::scale(trf, glm::vec3(scale));
 
-		mTransform = glm::inverse(trf);
-		mInverse = trf;
+		mTransform = trf;
+		mInverse = glm::inverse(trf);
 	}
 
 	// ------------------------------------------------------------------------
