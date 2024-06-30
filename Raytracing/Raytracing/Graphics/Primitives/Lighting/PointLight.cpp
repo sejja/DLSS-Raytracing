@@ -45,7 +45,7 @@ namespace Graphics {
 
 				glm::vec3 poi;
 				glm::vec3 poiNormal;
-				glm::vec4 poiColor;
+				glm::vec3 poiColor;
 				bool validInt = false;
 
 				// Check for intersections with other objects.

@@ -40,7 +40,7 @@ namespace Math {
 	*
 	*  Build the transformation matrix with the given translation, rotation and scale
 	*/ // ---------------------------------------------------------------------
-	void Transform::SetTransform(const glm::vec4& translation, const glm::vec4& rotation, const glm::vec4& scale) noexcept {
+	void Transform::SetTransform(const glm::vec3& translation, const glm::vec3& rotation, const glm::vec3& scale) noexcept {
 		glm::mat4 trf = glm::translate(glm::mat4(1.0f), glm::vec3(translation));
 		trf = glm::rotate(trf, rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
 		trf = glm::rotate(trf, rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));

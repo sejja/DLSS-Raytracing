@@ -31,6 +31,8 @@ namespace Graphics {
 					glm::vec3& color, float& intensity);
 				void inline SetColor(const glm::vec3& color);
 				void inline SetPosition(const glm::vec3& position);
+				DONTDISCARD inline glm::vec3 GetPosition() const noexcept;
+				DONTDISCARD inline glm::vec3 GetColor() const noexcept;
 #pragma endregion
 
 #pragma region //Members
@@ -69,6 +71,24 @@ namespace Graphics {
 			*/ // ---------------------------------------------------------------------
 			void Light::SetPosition(const glm::vec3& position) {
 				mPosition = position;
+			}
+			
+			// ------------------------------------------------------------------------
+			/*! Get Position
+			*
+			*   Returns the Position of the light
+			*/ // ---------------------------------------------------------------------
+			glm::vec3 Light::GetPosition() const noexcept {
+				return mPosition;
+			}
+
+			// ------------------------------------------------------------------------
+			/*! Get Color
+			*
+			*   Returns the Color of the light
+			*/ // ---------------------------------------------------------------------
+			glm::vec3 Light::GetColor() const noexcept {
+				return mColor;
 			}
 		}
 	}

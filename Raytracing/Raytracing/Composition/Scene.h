@@ -26,6 +26,7 @@ namespace Composition {
 
 	#pragma region //Method
 		bool Render(Core::FrameBuffer& fb);
+		bool CastRay(const Trace::Ray& ray, std::shared_ptr<Object>&closestobj, glm::vec3& inpoint, glm::vec3& innormal, glm::vec3& outcolor);
 	#pragma endregion
 
 	#pragma region //Members

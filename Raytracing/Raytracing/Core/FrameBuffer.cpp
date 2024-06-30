@@ -57,15 +57,12 @@ namespace Core {
     void FrameBuffer::DrawToRenderTarget(sf::RenderTarget& target, sf::RenderStates states) {
 		ComputeMaxValues();
 
-		// Loop over each pixel in the FrameBuffer
 		for (size_t x = 0; x < mWidth; x++)
-
-			// Loop over each pixel in the FrameBuffer
             for (size_t y = 0; y < mHeight; y++) {
-				SetColor(x, y, sf::Color{ static_cast<sf::Uint8>((GetColor(x, y).r / mGlobalMax) * 255),
-                                                  static_cast<sf::Uint8>((GetColor(x, y).g / mGlobalMax) * 255), 
-                                                  static_cast<sf::Uint8>((GetColor(x, y).b / mGlobalMax) * 255), 
-                                                  255 });
+                const sf::Color c = GetColor(x, y);
+				SetColor(x, y, sf::Color{ static_cast<sf::Uint8>((c.r / mGlobalMax) * 255), 
+                                                static_cast<sf::Uint8>((c.g / mGlobalMax) * 255), 
+                                                static_cast<sf::Uint8>((c.b / mGlobalMax) * 255), 255 });
             }
 
         mTexture.update(mPixels.get());

@@ -23,7 +23,7 @@ namespace Math {
 #pragma endregion
 
 #pragma region //Methods
-		void SetTransform(const glm::vec4& translation, const glm::vec4& rotation, const glm::vec4& scale) noexcept;
+		void SetTransform(const glm::vec3& translation, const glm::vec3& rotation, const glm::vec3& scale) noexcept;
 
 		DONTDISCARD inline glm::mat4 GetForward() const noexcept;
 		DONTDISCARD inline glm::mat4 GetInverse() const noexcept;

@@ -7,6 +7,7 @@
 //
 
 #include "Object.h"
+#include "../Graphics/Primitives/Material.h"
 
 namespace Composition {
 	// ------------------------------------------------------------------------
@@ -22,4 +23,16 @@ namespace Composition {
 	*   
 	*/ // ---------------------------------------------------------------------
 	Object::~Object() noexcept {}
+
+
+	// ------------------------------------------------------------------------
+	/*! Assign Material
+	*
+	*
+	*/ // ---------------------------------------------------------------------
+	bool Object::AssignMaterial(const std::shared_ptr<Graphics::Primitives::Material>& objMaterial) noexcept {
+		mMaterial = objMaterial;
+		mHasMaterial = static_cast<bool>(objMaterial);
+		return mHasMaterial;
+	}
 }

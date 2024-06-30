@@ -34,7 +34,7 @@ namespace Graphics {
 		*
 		*   Tests whether a ray intersects with the sphere.
 		*/ // ---------------------------------------------------------------------
-		bool Sphere::TestIntersection(const Trace::Ray& ray, glm::vec3& inpoint, glm::vec3& innormal, glm::vec4& outcolor) noexcept {
+		bool Sphere::TestIntersection(const Trace::Ray& ray, glm::vec3& inpoint, glm::vec3& innormal, glm::vec3& outcolor) noexcept {
 
 			// Transform the ray into the object's space.
 			const Trace::Ray newRay = mTransform.InverseTransformRay(ray);
