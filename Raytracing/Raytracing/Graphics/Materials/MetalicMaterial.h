@@ -21,28 +21,28 @@ namespace Graphics {
 #pragma endregion
 
 #pragma region //Methods
-			DONTDISCARD glm::vec3 ComputeColor(
+			DONTDISCARD glm::dvec3 ComputeColor(
 				const std::vector<std::shared_ptr<Composition::Object>>& objList,
 				const std::vector<std::shared_ptr<Primitives::Lighting::Light>>& lightList,
 				const std::shared_ptr<Composition::Object>& currObject,
-				const glm::vec3& intersectionPoint, const glm::vec3& normalPoint,
+				const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
 				const Trace::Ray& camRay) const noexcept override;
-			DONTDISCARD glm::vec3 ComputeSpecular(
+			DONTDISCARD glm::dvec3 ComputeSpecular(
 				const std::vector<std::shared_ptr<Composition::Object>>& objList,
 				const std::vector<std::shared_ptr<Primitives::Lighting::Light>>& lightList,
 				const std::shared_ptr<Composition::Object>& currObject,
-				const glm::vec3& intersectionPoint, const glm::vec3& normalPoint,
+				const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
 				const Trace::Ray& camRay) const noexcept;
-			void SetColor(const glm::vec3& color) noexcept;
-			void SetShininess(float shininess) noexcept;
-			void SetReflectivity(float reflectivity) noexcept;
+			void SetColor(const glm::dvec3& color) noexcept;
+			void SetShininess(double shininess) noexcept;
+			void SetReflectivity(double reflectivity) noexcept;
 #pragma endregion
 
 #pragma region //Members
 		protected:
-			float mReflectivity;
-			float mShininess;
-			glm::vec3 mColor;
+			double mReflectivity;
+			double mShininess;
+			glm::dvec3 mColor;
 #pragma endregion
 		};
 	}

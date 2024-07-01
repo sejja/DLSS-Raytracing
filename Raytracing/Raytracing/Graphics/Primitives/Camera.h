@@ -22,38 +22,38 @@ namespace Graphics {
 		#pragma endregion
 
 		#pragma region //Methods
-			void SetPosition(const glm::vec3& position) noexcept;
-			void SetLookAt(const glm::vec3& direction) noexcept;
-			void SetUp(const glm::vec3& up) noexcept;
-			void SetLength(const float length) noexcept;
-			void SetHorizonSize(const float size) noexcept;
-			void SetAspectRatio(const float ratio) noexcept;
-			DONTDISCARD inline glm::vec3 GetPosition() const noexcept;
-			DONTDISCARD inline glm::vec3 GetLookAt() const noexcept;
-			DONTDISCARD inline glm::vec3 GetUp() const noexcept;
-			DONTDISCARD inline glm::vec3 GetU() const noexcept;
-			DONTDISCARD inline glm::vec3 GetV() const noexcept;
-			DONTDISCARD inline glm::vec3 GetScreenCenter() const noexcept;
-			DONTDISCARD inline float GetLength() const noexcept;
-			DONTDISCARD inline float GetHorizonSize() const noexcept;
-			DONTDISCARD inline float GetAspectRatio() const noexcept;
-			bool GenerateRay(const float x, const float y, Trace::Ray& cameraRay) const noexcept;
+			void SetPosition(const glm::dvec3& position) noexcept;
+			void SetLookAt(const glm::dvec3& direction) noexcept;
+			void SetUp(const glm::dvec3& up) noexcept;
+			void SetLength(const double length) noexcept;
+			void SetHorizonSize(const double size) noexcept;
+			void SetAspectRatio(const double ratio) noexcept;
+			DONTDISCARD inline glm::dvec3 GetPosition() const noexcept;
+			DONTDISCARD inline glm::dvec3 GetLookAt() const noexcept;
+			DONTDISCARD inline glm::dvec3 GetUp() const noexcept;
+			DONTDISCARD inline glm::dvec3 GetU() const noexcept;
+			DONTDISCARD inline glm::dvec3 GetV() const noexcept;
+			DONTDISCARD inline glm::dvec3 GetScreenCenter() const noexcept;
+			DONTDISCARD inline double GetLength() const noexcept;
+			DONTDISCARD inline double GetHorizonSize() const noexcept;
+			DONTDISCARD inline double GetAspectRatio() const noexcept;
+			bool GenerateRay(const double x, const double y, Trace::Ray& cameraRay) const noexcept;
 
 		private:
 			void UpdateCameraGeometry() noexcept;
 		#pragma endregion
 		
 		#pragma region //Members
-			glm::vec3 mCameraPosition;
-			glm::vec3 mCameraLookAt;
-			glm::vec3 mCameraUp;
-			float mCameraLength;
-			float mCameraHorizonSize;
-			float mCameraAspectRatio;
-			glm::vec3 mAlignmentVector;
-			glm::vec3 mProjectionScreenU;
-			glm::vec3 mProjectionScreenV;
-			glm::vec3 mProjectionScreenCenter;
+			glm::dvec3 mCameraPosition;
+			glm::dvec3 mCameraLookAt;
+			glm::dvec3 mCameraUp;
+			double mCameraLength;
+			double mCameraHorizonSize;
+			double mCameraAspectRatio;
+			glm::dvec3 mAlignmentVector;
+			glm::dvec3 mProjectionScreenU;
+			glm::dvec3 mProjectionScreenV;
+			glm::dvec3 mProjectionScreenCenter;
 		#pragma endregion
 		};
 
@@ -62,7 +62,7 @@ namespace Graphics {
 		*
 		*   Returns the Camera Position
 		*/ // ---------------------------------------------------------------------
-		glm::vec3 Camera::GetPosition() const noexcept {
+		glm::dvec3 Camera::GetPosition() const noexcept {
 			return mCameraPosition;
 		}
 
@@ -71,7 +71,7 @@ namespace Graphics {
 		*
 		*   Returns the Camera Look At
 		*/ // ---------------------------------------------------------------------
-		glm::vec3 Camera::GetLookAt() const noexcept {
+		glm::dvec3 Camera::GetLookAt() const noexcept {
 			return mCameraLookAt;
 		}
 
@@ -80,7 +80,7 @@ namespace Graphics {
 		*
 		*   Returns the Camera Up Vector
 		*/ // ---------------------------------------------------------------------
-		glm::vec3 Camera::GetUp() const noexcept {
+		glm::dvec3 Camera::GetUp() const noexcept {
 			return mCameraUp;
 		}
 
@@ -89,7 +89,7 @@ namespace Graphics {
 		*
 		*   Returns the Camera U Vector
 		*/ // ---------------------------------------------------------------------
-		glm::vec3 Camera::GetU() const noexcept {
+		glm::dvec3 Camera::GetU() const noexcept {
 			return mProjectionScreenU;
 		}
 
@@ -98,7 +98,7 @@ namespace Graphics {
 		*
 		*   Returns the Camera V Vector
 		*/ // ---------------------------------------------------------------------
-		glm::vec3 Camera::GetV() const noexcept {
+		glm::dvec3 Camera::GetV() const noexcept {
 			return mProjectionScreenV;
 		}
 
@@ -107,7 +107,7 @@ namespace Graphics {
 		*
 		*   Returns the Camera Screen Center
 		*/ // ---------------------------------------------------------------------
-		glm::vec3 Camera::GetScreenCenter() const noexcept {
+		glm::dvec3 Camera::GetScreenCenter() const noexcept {
 			return mProjectionScreenCenter;
 		}
 
@@ -116,7 +116,7 @@ namespace Graphics {
 		*
 		*   Get the Camera Length
 		*/ // ---------------------------------------------------------------------
-		float Camera::GetLength() const noexcept {
+		double Camera::GetLength() const noexcept {
 			return mCameraLength;
 		}
 
@@ -125,7 +125,7 @@ namespace Graphics {
 		*
 		*   Get the Camera Horizon Size
 		*/ // ---------------------------------------------------------------------
-		float Camera::GetHorizonSize() const noexcept {
+		double Camera::GetHorizonSize() const noexcept {
 			return mCameraHorizonSize;
 		}
 
@@ -134,7 +134,7 @@ namespace Graphics {
 		*
 		*   Returns the Camera Aspect Ratio
 		*/ // ---------------------------------------------------------------------
-		float Camera::GetAspectRatio() const noexcept {
+		double Camera::GetAspectRatio() const noexcept {
 			return mCameraAspectRatio;
 		}
 	}

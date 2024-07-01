@@ -25,21 +25,21 @@ namespace Graphics {
 #pragma endregion
 
 #pragma region //Methods
-				DONTDISCARD virtual inline bool ComputeLighting( const glm::vec3& inpoint, const glm::vec3& innormal,
+				DONTDISCARD virtual inline bool ComputeLighting( const glm::dvec3& inpoint, const glm::dvec3& innormal,
 					const std::vector<std::shared_ptr<Composition::Object>>& objlist,
 					const std::shared_ptr<Composition::Object>& obj,
-					glm::vec3& color, float& intensity);
-				void inline SetColor(const glm::vec3& color);
-				void inline SetPosition(const glm::vec3& position);
-				DONTDISCARD inline glm::vec3 GetPosition() const noexcept;
-				DONTDISCARD inline glm::vec3 GetColor() const noexcept;
+					glm::dvec3& color, double& intensity);
+				void inline SetColor(const glm::dvec3& color);
+				void inline SetPosition(const glm::dvec3& position);
+				DONTDISCARD inline glm::dvec3 GetPosition() const noexcept;
+				DONTDISCARD inline glm::dvec3 GetColor() const noexcept;
 #pragma endregion
 
 #pragma region //Members
 			protected:
-				glm::vec3 mColor;
-				glm::vec3 mPosition;
-				float mIntensity;
+				glm::dvec3 mColor;
+				glm::dvec3 mPosition;
+				double mIntensity;
 #pragma endregion
 			};
 
@@ -48,10 +48,10 @@ namespace Graphics {
 			*
 			*   Computes the lighting for the given ray
 			*/ // ---------------------------------------------------------------------
-			bool Light::ComputeLighting(const glm::vec3& inpoint, const glm::vec3& innormal,
+			bool Light::ComputeLighting(const glm::dvec3& inpoint, const glm::dvec3& innormal,
 				const std::vector<std::shared_ptr<Composition::Object>>& objlist,
 				const std::shared_ptr<Composition::Object>& obj,
-				glm::vec3& color, float& intensity) {
+				glm::dvec3& color, double& intensity) {
 				return false;
 			}
 
@@ -60,7 +60,7 @@ namespace Graphics {
 			*
 			*   Sets the Color of a Light source
 			*/ // ---------------------------------------------------------------------
-			void Light::SetColor(const glm::vec3& color) {
+			void Light::SetColor(const glm::dvec3& color) {
 				mColor = color;
 			}
 
@@ -69,7 +69,7 @@ namespace Graphics {
 			*
 			*   Sets the Position of the Light source
 			*/ // ---------------------------------------------------------------------
-			void Light::SetPosition(const glm::vec3& position) {
+			void Light::SetPosition(const glm::dvec3& position) {
 				mPosition = position;
 			}
 			
@@ -78,7 +78,7 @@ namespace Graphics {
 			*
 			*   Returns the Position of the light
 			*/ // ---------------------------------------------------------------------
-			glm::vec3 Light::GetPosition() const noexcept {
+			glm::dvec3 Light::GetPosition() const noexcept {
 				return mPosition;
 			}
 
@@ -87,7 +87,7 @@ namespace Graphics {
 			*
 			*   Returns the Color of the light
 			*/ // ---------------------------------------------------------------------
-			glm::vec3 Light::GetColor() const noexcept {
+			glm::dvec3 Light::GetColor() const noexcept {
 				return mColor;
 			}
 		}

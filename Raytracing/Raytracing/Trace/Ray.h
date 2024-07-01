@@ -17,19 +17,19 @@ namespace Trace {
 #pragma region //Constructor
 	public:
 		Ray() noexcept;
-		Ray(const glm::vec3& origin, const glm::vec3& endpoint) noexcept;
+		Ray(const glm::dvec3& origin, const glm::dvec3& endpoint) noexcept;
 #pragma endregion
 
 #pragma region //Methods
-		inline void SetOrigin(const glm::vec3& origin) noexcept;
-		inline void SetEndPoint(const glm::vec3& endpoint) noexcept;
-		DONTDISCARD inline glm::vec3 GetOrigin() const noexcept;
-		DONTDISCARD inline glm::vec3 GetEndPoint() const noexcept;
+		inline void SetOrigin(const glm::dvec3& origin) noexcept;
+		inline void SetEndPoint(const glm::dvec3& endpoint) noexcept;
+		DONTDISCARD inline glm::dvec3 GetOrigin() const noexcept;
+		DONTDISCARD inline glm::dvec3 GetEndPoint() const noexcept;
 #pragma endregion
 
 #pragma endregion //Members
 	private:
-		glm::vec3 mOrigin, mEndPoint;
+		glm::dvec3 mOrigin, mEndPoint;
 #pragma endregion
 	};
 
@@ -38,7 +38,7 @@ namespace Trace {
 	*
 	*   Gets the Origin Point of the Ray
 	*/ // ---------------------------------------------------------------------
-	inline void Ray::SetOrigin(const glm::vec3& origin) noexcept {
+	inline void Ray::SetOrigin(const glm::dvec3& origin) noexcept {
 		mOrigin = origin;
 	}
 
@@ -47,7 +47,7 @@ namespace Trace {
 	*
 	*   Gets the Origin Point of the Ray
 	*/ // ---------------------------------------------------------------------
-	inline void Ray::SetEndPoint(const glm::vec3& endpoint) noexcept {
+	inline void Ray::SetEndPoint(const glm::dvec3& endpoint) noexcept {
 		mEndPoint = endpoint;
 	}
 
@@ -56,7 +56,7 @@ namespace Trace {
 	*
 	*   Gets the Origin Point of the Ray
 	*/ // ---------------------------------------------------------------------
-	glm::vec3 Ray::GetOrigin() const noexcept {
+	glm::dvec3 Ray::GetOrigin() const noexcept {
 		return mOrigin;
 	}
 
@@ -65,7 +65,7 @@ namespace Trace {
 	*
 	*   Gets the Ray Endpoint
 	*/ // ---------------------------------------------------------------------
-	glm::vec3 Ray::GetEndPoint() const noexcept {
+	glm::dvec3 Ray::GetEndPoint() const noexcept {
 		return mEndPoint;
 	}
 }

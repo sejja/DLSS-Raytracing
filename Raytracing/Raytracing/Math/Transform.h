@@ -19,25 +19,26 @@ namespace Math {
 		Transform() noexcept;
 		~Transform() noexcept;
 
-		Transform(const glm::mat4& trf) noexcept;
+		Transform(const glm::dvec3& translation, const glm::dvec3& rotation, const glm::dvec3& scale) noexcept;
+		Transform(const glm::dmat4& trf) noexcept;
 #pragma endregion
 
 #pragma region //Methods
-		void SetTransform(const glm::vec3& translation, const glm::vec3& rotation, const glm::vec3& scale) noexcept;
+		void SetTransform(const glm::dvec3& translation, const glm::dvec3& rotation, const glm::dvec3& scale) noexcept;
 
-		DONTDISCARD inline glm::mat4 GetForward() const noexcept;
-		DONTDISCARD inline glm::mat4 GetInverse() const noexcept;
+		DONTDISCARD inline glm::dmat4 GetForward() const noexcept;
+		DONTDISCARD inline glm::dmat4 GetInverse() const noexcept;
 		DONTDISCARD inline Trace::Ray TransformRay(const Trace::Ray& ray) const noexcept;
-		DONTDISCARD inline glm::vec3 ApplyTransform(const glm::vec3& vec) const  noexcept;
+		DONTDISCARD inline glm::dvec3 ApplyTransform(const glm::dvec3& vec) const  noexcept;
 		DONTDISCARD inline Trace::Ray InverseTransformRay(const Trace::Ray& ray) const noexcept;
-		DONTDISCARD inline glm::vec3 InverseApplyTransform(const glm::vec3& vec) const  noexcept;
+		DONTDISCARD inline glm::dvec3 InverseApplyTransform(const glm::dvec3& vec) const  noexcept;
 		Transform operator=( const Transform& rhs) noexcept;
 #pragma endregion
 
 #pragma region //Members
 	private:
-		glm::mat4 mTransform;
-		glm::mat4 mInverse;
+		glm::dmat4 mTransform;
+		glm::dmat4 mInverse;
 #pragma endregion
 	};
 
@@ -46,7 +47,7 @@ namespace Math {
 	*
 	*   Returns the forward transformation matrix
 	*/ // ---------------------------------------------------------------------
-	glm::mat4 Transform::GetForward() const noexcept {
+	glm::dmat4 Transform::GetForward() const noexcept {
 		return mTransform;
 	}
 
@@ -55,7 +56,7 @@ namespace Math {
 	*
 	*   Returns the inverse transformation matrix
 	*/ // ---------------------------------------------------------------------
-	glm::mat4 Transform::GetInverse() const noexcept {
+	glm::dmat4 Transform::GetInverse() const noexcept {
 		return mInverse;
 	}
 
@@ -73,8 +74,8 @@ namespace Math {
 	*
 	*  Applies the Transformation to a vector
 	*/ // ---------------------------------------------------------------------
-	glm::vec3 Transform::ApplyTransform(const glm::vec3& vec) const noexcept {
-		return glm::vec3(mTransform * glm::vec4(vec, 1.0f));
+	glm::dvec3 Transform::ApplyTransform(const glm::dvec3& vec) const noexcept {
+		return glm::dvec3(mTransform * glm::vec4(vec, 1.0f));
 	}
 
 	// ------------------------------------------------------------------------
@@ -91,8 +92,8 @@ namespace Math {
 	*
 	*  Applies the Transformation to a vector
 	*/ // ---------------------------------------------------------------------
-	glm::vec3 Transform::InverseApplyTransform(const glm::vec3& vec) const noexcept {
-		return glm::vec3(mInverse * glm::vec4(vec, 1.0f));
+	glm::dvec3 Transform::InverseApplyTransform(const glm::dvec3& vec) const noexcept {
+		return glm::dvec3(mInverse * glm::vec4(vec, 1.0f));
 	}
 }
 

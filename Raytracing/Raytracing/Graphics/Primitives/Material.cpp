@@ -29,13 +29,13 @@ namespace Graphics {
 		*
 		*
 		*/ // ---------------------------------------------------------------------
-		glm::vec3 Material::ComputeColor(
+		glm::dvec3 Material::ComputeColor(
 			const std::vector<std::shared_ptr<Composition::Object>>& objList,
 			const std::vector<std::shared_ptr<Lighting::Light>>& lightList,
 			const std::shared_ptr<Composition::Object>& currObject,
-			const glm::vec3& intersectionPoint, const glm::vec3& normalPoint,
+			const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
 			const Trace::Ray& camRay) const noexcept {
-			glm::vec3 color = mColor;
+			glm::dvec3 color = mColor;
 			
 			return color;
 		}
@@ -45,18 +45,18 @@ namespace Graphics {
 		*
 		*
 		*/ // ---------------------------------------------------------------------
-		glm::vec3 Material::ComputeColorDiffuse(
+		glm::dvec3 Material::ComputeColorDiffuse(
 			const std::vector<std::shared_ptr<Composition::Object>>& objList,
 			const std::vector<std::shared_ptr<Lighting::Light>>& lightList,
 			const std::shared_ptr<Composition::Object>& currObject,
-			const glm::vec3& intersectionPoint, const glm::vec3& normalPoint,
-			const glm::vec3& basecolor) noexcept {
-			glm::vec3 diffuseColor;
-			float intensity;
-			glm::vec3 color;
-			float red = 0.0;
-			float green = 0.0;
-			float blue = 0.0;
+			const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
+			const glm::dvec3& basecolor) noexcept {
+			glm::dvec3 diffuseColor = glm::dvec3(0.f);
+			double intensity = 0.0;
+			glm::dvec3 color = glm::dvec3(0.f);
+			double red = 0.0;
+			double green = 0.0;
+			double blue = 0.0;
 			bool validIllum = false;
 			bool illumFound = false;
 			for (auto currentLight : lightList)
@@ -87,24 +87,24 @@ namespace Graphics {
 		*
 		*   Computes the color reflection
 		*/ // ---------------------------------------------------------------------
-		glm::vec3 Material::ComputeColorReflection(const std::vector<std::shared_ptr<Composition::Object>>& objList,
+		glm::dvec3 Material::ComputeColorReflection(const std::vector<std::shared_ptr<Composition::Object>>& objList,
 																		const std::vector<std::shared_ptr<Lighting::Light>>& lightList, 
 																		const std::shared_ptr<Composition::Object>& currObject, 
-																		const glm::vec3& intersectionPoint, const glm::vec3& normalPoint,
+																		const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
 																		const Trace::Ray& camRay) const noexcept {
-			glm::vec3 reflectionColor;
-			glm::vec3 d = camRay.GetEndPoint() - camRay.GetOrigin();
-			glm::vec3 reflectionVector = glm::reflect(d, normalPoint); //MIGHT POTENTIALLY BE WRONG
+			glm::dvec3 reflectionColor = glm::dvec3(0.f);
+			glm::dvec3 d = camRay.GetEndPoint() - camRay.GetOrigin();
+			glm::dvec3 reflectionVector = glm::reflect(d, normalPoint); //MIGHT POTENTIALLY BE WRONG
 
 			Trace::Ray reflectionRay(intersectionPoint, intersectionPoint + reflectionVector);
 
 			std::shared_ptr<Composition::Object> closestObject;
-			glm::vec3 closestinpoint;
-			glm::vec3 closestinnormal;
-			glm::vec3 closestoutcolor;
+			glm::dvec3 closestinpoint = glm::dvec3(0.f);
+			glm::dvec3 closestinnormal = glm::dvec3(0.f);
+			glm::dvec3 closestoutcolor = glm::dvec3(0.f);
 			bool intersection = CastRay(reflectionRay, objList, closestObject, closestinpoint, closestinnormal, closestoutcolor);
 
-			glm::vec3 matColor;
+			glm::dvec3 matColor = glm::dvec3();
 			if (intersection && mReflectionRayCount < mReflectionCountMax) {
 				mReflectionRayCount++;
 				if (closestObject->HasMaterial()) {
@@ -115,7 +115,7 @@ namespace Graphics {
 				}
 			}
 			else {
-				reflectionColor = glm::vec3(0.0f);
+				reflectionColor = glm::dvec3(0.0f);
 			}
 
 			reflectionColor = matColor;
@@ -129,18 +129,18 @@ namespace Graphics {
 		*/ // ---------------------------------------------------------------------
 		bool Material::CastRay(const Trace::Ray& ray, 
 										const std::vector<std::shared_ptr<Composition::Object>>& objList, 
-										std::shared_ptr<Composition::Object>& closestobj, glm::vec3& inpoint, 
-										glm::vec3& innormal, glm::vec3& outcolor) const noexcept {
-			glm::vec3 intPoint;
-			glm::vec3 localNormal;
-			glm::vec3 localColor;
-			float minDist = std::numeric_limits<float>::max();
+										std::shared_ptr<Composition::Object>& closestobj, glm::dvec3& inpoint, 
+										glm::dvec3& innormal, glm::dvec3& outcolor) const noexcept {
+			glm::dvec3 intPoint;
+			glm::dvec3 localNormal;
+			glm::dvec3 localColor;
+			double minDist = std::numeric_limits<double>::max();
 			bool foundIntersection = false;
 
 			for (auto& obj : objList) {
 				if (obj->TestIntersection(ray, intPoint, localNormal, localColor)) {
 					foundIntersection = true;
-					const float dist = glm::length(intPoint - ray.GetOrigin());
+					const double dist = glm::length(intPoint - ray.GetOrigin());
 					if (dist < minDist) {
 						minDist = dist;
 						closestobj = obj;

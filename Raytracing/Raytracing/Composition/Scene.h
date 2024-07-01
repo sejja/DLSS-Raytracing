@@ -12,8 +12,8 @@
 #include <memory>
 #include <vector>
 #include "../Core/FrameBuffer.h"
-#include "../Graphics/Primitives/Sphere.h"
-#include "../Graphics/Primitives/Plane.h"
+#include "../Graphics/Shapes/Sphere.h"
+#include "../Graphics/Shapes/Plane.h"
 #include "../Graphics/Primitives/Camera.h"
 #include "../Graphics/Primitives/Lighting/Light.h"
 
@@ -26,7 +26,7 @@ namespace Composition {
 
 	#pragma region //Method
 		bool Render(Core::FrameBuffer& fb);
-		bool CastRay(const Trace::Ray& ray, std::shared_ptr<Object>&closestobj, glm::vec3& inpoint, glm::vec3& innormal, glm::vec3& outcolor);
+		bool CastRay(const Trace::Ray& ray, std::shared_ptr<Object>&closestobj, glm::dvec3& inpoint, glm::dvec3& innormal, glm::dvec3& outcolor);
 	#pragma endregion
 
 	#pragma region //Members

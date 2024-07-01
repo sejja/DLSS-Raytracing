@@ -34,7 +34,7 @@ namespace Core {
     #pragma endregion
 
     #pragma endregion //Members
-		float mRed, mGreen, mBlue, mGlobalMax;
+		double mRed, mGreen, mBlue, mGlobalMax;
         std::size_t mWidth, mHeight;
 		std::unique_ptr<sf::Uint8[]> mPixels;
 		sf::Texture mTexture;

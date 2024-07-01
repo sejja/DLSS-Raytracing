@@ -26,10 +26,10 @@ namespace Graphics {
 		*
 		*   Generates a Ray from the Camera Position to the given coordinates
 		*/ // ---------------------------------------------------------------------
-		bool Camera::GenerateRay(const float x, const float y, Trace::Ray& cameraRay) const noexcept {
+		bool Camera::GenerateRay(const double x, const double y, Trace::Ray& cameraRay) const noexcept {
 			// Compute the location of the screen point in world coordinates.
-			glm::vec3 screenWorldPart1 = mProjectionScreenCenter + (mProjectionScreenU * x);
-			glm::vec3 screenWorldCoordinate = screenWorldPart1 + (mProjectionScreenV * y);
+			glm::dvec3 screenWorldPart1 = mProjectionScreenCenter + (mProjectionScreenU * x);
+			glm::dvec3 screenWorldCoordinate = screenWorldPart1 + (mProjectionScreenV * y);
 
 			// Use this point along with the camera position to compute the ray.
 			cameraRay.SetOrigin(mCameraPosition);
@@ -64,7 +64,7 @@ namespace Graphics {
 		*
 		*   Sets the Camera Position in World Space
 		*/ // ---------------------------------------------------------------------
-		void Camera::SetPosition(const glm::vec3& position) noexcept {
+		void Camera::SetPosition(const glm::dvec3& position) noexcept {
 			mCameraPosition = position;
 			UpdateCameraGeometry();
 		}
@@ -74,7 +74,7 @@ namespace Graphics {
 		*
 		*   Sets the Initial Camera configuration
 		*/ // ---------------------------------------------------------------------
-		void Camera::SetLookAt(const glm::vec3& direction) noexcept {
+		void Camera::SetLookAt(const glm::dvec3& direction) noexcept {
 			mCameraLookAt = direction;
 			UpdateCameraGeometry();
 		}
@@ -84,7 +84,7 @@ namespace Graphics {
 		*
 		*   Sets the Up Vector of the Camera
 		*/ // ---------------------------------------------------------------------
-		void Camera::SetUp(const glm::vec3& up) noexcept {
+		void Camera::SetUp(const glm::dvec3& up) noexcept {
 			mCameraUp = up;
 			UpdateCameraGeometry();
 		}
@@ -94,7 +94,7 @@ namespace Graphics {
 		*
 		*   Sets the Camera Length
 		*/ // ---------------------------------------------------------------------
-		void Camera::SetLength(const float length) noexcept {
+		void Camera::SetLength(const double length) noexcept {
 			mCameraLength = length;
 			UpdateCameraGeometry();
 		}
@@ -104,7 +104,7 @@ namespace Graphics {
 		*
 		*   Sets the Camera Horizon Size
 		*/ // ---------------------------------------------------------------------
-		void Camera::SetHorizonSize(const float size) noexcept {
+		void Camera::SetHorizonSize(const double size) noexcept {
 			mCameraHorizonSize = size;
 			UpdateCameraGeometry();
 		}
@@ -114,7 +114,7 @@ namespace Graphics {
 		*
 		*   Sets the Camera Aspect Ratio
 		*/ // ---------------------------------------------------------------------
-		void Camera::SetAspectRatio(const float ratio) noexcept {
+		void Camera::SetAspectRatio(const double ratio) noexcept {
 			mCameraAspectRatio = ratio;
 			UpdateCameraGeometry();
 		}

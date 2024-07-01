@@ -17,8 +17,8 @@ namespace Graphics {
 			*   Sets the default values for the PointLight
 			*/ // ---------------------------------------------------------------------
 			PointLight::PointLight() noexcept {
-				mColor = glm::vec3(1.0f, 1.0f, 1.0f);
-				mPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+				mColor = glm::dvec3(1.0f, 1.0f, 1.0f);
+				mPosition = glm::dvec3(0.0f, 0.0f, 0.0f);
 				mIntensity = 1.0f;
 			}
 
@@ -34,18 +34,18 @@ namespace Graphics {
 			*
 			*   Computes the lighting for the given point
 			*/ // ---------------------------------------------------------------------
-			bool PointLight::ComputeLighting(const glm::vec3& inpoint, const glm::vec3& innormal,
+			bool PointLight::ComputeLighting(const glm::dvec3& inpoint, const glm::dvec3& innormal,
 				const std::vector<std::shared_ptr<Composition::Object>>& objlist,
 				const std::shared_ptr<Composition::Object>& obj,
-				glm::vec3& color, float& intensity) noexcept {
+				glm::dvec3& color, double& intensity) noexcept {
 
-				const glm::vec3 lightDir = glm::normalize(mPosition - inpoint);
-				const glm::vec3 startPoint = inpoint;
+				const glm::dvec3 lightDir = glm::normalize(mPosition - inpoint);
+				const glm::dvec3 startPoint = inpoint;
 				const Trace::Ray lightRay(startPoint, startPoint + lightDir);
 
-				glm::vec3 poi;
-				glm::vec3 poiNormal;
-				glm::vec3 poiColor;
+				glm::dvec3 poi = glm::dvec3(0);
+				glm::dvec3 poiNormal = glm::dvec3(0);
+				glm::dvec3 poiColor = glm::dvec3(0);
 				bool validInt = false;
 
 				// Check for intersections with other objects.
@@ -59,7 +59,7 @@ namespace Graphics {
 
 				// If there is no intersection, then we have illumination.
 				if (!validInt) {
-					const float angle = acos(glm::dot(innormal, lightDir));
+					const double angle = acos(glm::dot(innormal, lightDir));
 
 					if (angle > 1.5708) {
 						// No illumination.

@@ -99,9 +99,9 @@ namespace Core {
 			// Loop over each pixel in the FrameBuffer
 			for (size_t y = 0; y < mHeight; y++) {
 				const sf::Color color = GetColor(x, y);
-				mRed = std::max(mRed, static_cast<float>(color.r));
-				mGreen = std::max(mGreen, static_cast<float>(color.g));
-				mBlue = std::max(mBlue, static_cast<float>(color.b));
+				mRed = std::max(mRed, static_cast<double>(color.r));
+				mGreen = std::max(mGreen, static_cast<double>(color.g));
+				mBlue = std::max(mBlue, static_cast<double>(color.b));
 			}
         }
 

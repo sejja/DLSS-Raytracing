@@ -123,6 +123,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\include;$(SolutionDir)Dependencies;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,8 +143,10 @@
     <ClCompile Include="Graphics\Primitives\Lighting\Light.cpp" />
     <ClCompile Include="Graphics\Primitives\Lighting\PointLight.cpp" />
     <ClCompile Include="Graphics\Primitives\Material.cpp" />
-    <ClCompile Include="Graphics\Primitives\Plane.cpp" />
-    <ClCompile Include="Graphics\Primitives\Sphere.cpp" />
+    <ClCompile Include="Graphics\Shapes\Cone.cpp" />
+    <ClCompile Include="Graphics\Shapes\Cylinder.cpp" />
+    <ClCompile Include="Graphics\Shapes\Plane.cpp" />
+    <ClCompile Include="Graphics\Shapes\Sphere.cpp" />
     <ClCompile Include="Math\Transform.cpp" />
     <ClCompile Include="Raytracing.cpp" />
     <ClCompile Include="Core\RaytracingApp.cpp" />
@@ -160,8 +163,10 @@
     <ClInclude Include="Graphics\Primitives\Lighting\Light.h" />
     <ClInclude Include="Graphics\Primitives\Lighting\PointLight.h" />
     <ClInclude Include="Graphics\Primitives\Material.h" />
-    <ClInclude Include="Graphics\Primitives\Plane.h" />
-    <ClInclude Include="Graphics\Primitives\Sphere.h" />
+    <ClInclude Include="Graphics\Shapes\Cone.h" />
+    <ClInclude Include="Graphics\Shapes\Cylinder.h" />
+    <ClInclude Include="Graphics\Shapes\Plane.h" />
+    <ClInclude Include="Graphics\Shapes\Sphere.h" />
     <ClInclude Include="Math\Transform.h" />
     <ClInclude Include="Trace\Ray.h" />
   </ItemGroup>

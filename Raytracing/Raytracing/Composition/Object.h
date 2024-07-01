@@ -30,18 +30,18 @@ namespace Composition {
 
 	#pragma region //Methods
 		inline void SetTransform(const Math::Transform& transform) noexcept;
-		DONTDISCARD virtual inline bool TestIntersection(const Trace::Ray& ray, glm::vec3 & inpoint, glm::vec3& innormal, glm::vec3& outcolor) noexcept;
-		DONTDISCARD virtual inline bool CloseEnough(const float f1, const float f2) noexcept;
-		void inline SetColor(const glm::vec3& color) noexcept;
+		DONTDISCARD virtual inline bool TestIntersection(const Trace::Ray& ray, glm::dvec3 & inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) noexcept;
+		DONTDISCARD virtual inline bool CloseEnough(const double f1, const double f2) noexcept;
+		void inline SetColor(const glm::dvec3& color) noexcept;
 		bool AssignMaterial(const std::shared_ptr<Graphics::Primitives::Material>& objMaterial) noexcept;
 		DONTDISCARD inline bool HasMaterial() const noexcept;
 		DONTDISCARD inline std::shared_ptr<Graphics::Primitives::Material> GetMaterial() const noexcept;
-		DONTDISCARD inline glm::vec3 GetColor() const noexcept;
+		DONTDISCARD inline glm::dvec3 GetColor() const noexcept;
 	#pragma endregion
 
 	#pragma region //Members
 	protected:
-		glm::vec3 mColor;
+		glm::dvec3 mColor;
 		Math::Transform mTransform;
 		std::shared_ptr<Graphics::Primitives::Material> mMaterial;
 		bool mHasMaterial;
@@ -62,7 +62,7 @@ namespace Composition {
 	*
 	*   Sets the color of an object
 	*/ // ---------------------------------------------------------------------
-	void Composition::Object::SetColor(const glm::vec3& color) noexcept {
+	void Composition::Object::SetColor(const glm::dvec3& color) noexcept {
 		mColor = color;
 	}
 
@@ -71,7 +71,7 @@ namespace Composition {
 	*
 	*
 	*/ // ---------------------------------------------------------------------
-	bool Object::TestIntersection(const Trace::Ray& ray, glm::vec3& inpoint, glm::vec3& innormal, glm::vec3& outcolor) noexcept {
+	bool Object::TestIntersection(const Trace::Ray& ray, glm::dvec3& inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) noexcept {
 		return false;
 	}
 
@@ -80,8 +80,8 @@ namespace Composition {
 	*
 	*
 	*/ // ---------------------------------------------------------------------
-	bool Object::CloseEnough(const float f1, const float f2) noexcept {
-		return fabs(f1 - f2) < std::numeric_limits<float>::epsilon();
+	bool Object::CloseEnough(const double f1, const double f2) noexcept {
+		return fabs(f1 - f2) < std::numeric_limits<double>::epsilon();
 	}
 
 	// ------------------------------------------------------------------------
@@ -107,7 +107,7 @@ namespace Composition {
 	*
 	*	Returns the Color of the object
 	*/ // ---------------------------------------------------------------------
-	glm::vec3 Object::GetColor() const noexcept {
+	glm::dvec3 Object::GetColor() const noexcept {
 		return mColor;
 	}
 }

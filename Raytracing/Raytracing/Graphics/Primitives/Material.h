@@ -26,35 +26,35 @@ namespace Graphics {
 #pragma endregion
 
 #pragma region //Methods
-			DONTDISCARD virtual glm::vec3 ComputeColor(
+			DONTDISCARD virtual glm::dvec3 ComputeColor(
 				const std::vector<std::shared_ptr<Composition::Object>>& objList, 
 				const std::vector<std::shared_ptr<Lighting::Light>>& lightList,
 				const std::shared_ptr<Composition::Object>& currObject,
-				const glm::vec3& intersectionPoint, const glm::vec3& normalPoint,
+				const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
 				const Trace::Ray& camRay) const noexcept;
-			DONTDISCARD static glm::vec3 ComputeColorDiffuse(
+			DONTDISCARD static glm::dvec3 ComputeColorDiffuse(
 				const std::vector<std::shared_ptr<Composition::Object>>& objList,
 				const std::vector<std::shared_ptr<Lighting::Light>>& lightList,
 				const std::shared_ptr<Composition::Object>& currObject,
-				const glm::vec3& intersectionPoint, const glm::vec3& normalPoint,
-				const glm::vec3& color) noexcept;
-			DONTDISCARD virtual glm::vec3 ComputeColorReflection(
+				const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
+				const glm::dvec3& color) noexcept;
+			DONTDISCARD virtual glm::dvec3 ComputeColorReflection(
 				const std::vector<std::shared_ptr<Composition::Object>>& objList,
 				const std::vector<std::shared_ptr<Lighting::Light>>& lightList,
 				const std::shared_ptr<Composition::Object>& currObject,
-				const glm::vec3& intersectionPoint, const glm::vec3& normalPoint,
+				const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
 				const Trace::Ray& camRay) const noexcept;
 			bool CastRay(const Trace::Ray& ray, 
 								const std::vector<std::shared_ptr<Composition::Object>>& objList,	
 								std::shared_ptr<Composition::Object>& closestobj, 
-								glm::vec3& inpoint, glm::vec3& innormal, glm::vec3& outcolor) const noexcept;
+								glm::dvec3& inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) const noexcept;
 #pragma endregion
 
 #pragma region //Members
 			inline static int mReflectionRayCount;
 			inline static int mReflectionCountMax;
 		protected:
-			glm::vec3 mColor;
+			glm::dvec3 mColor;
 #pragma endregion
 		};
 	}
