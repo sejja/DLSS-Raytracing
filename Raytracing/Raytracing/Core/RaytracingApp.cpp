@@ -45,14 +45,10 @@ namespace Core {
 	bool RaytracingApp::Init() {
 		mRunning = true;
 		mFrameBuffer.SetSize(mWindow.getSize().x, mWindow.getSize().y);
-
-		//Some UV Testing code
-		for (int x = 0; x < mFrameBuffer.GetWidth(); x++)
-			for (int y = 0; y < mFrameBuffer.GetHeight(); y++)
-				mFrameBuffer.SetColor(x, y, 
-				sf::Color(static_cast<sf::Uint8>((static_cast<float>(x) / mFrameBuffer.GetWidth()) * 255.f), 
-					static_cast<sf::Uint8>((static_cast<float>(y) / mFrameBuffer.GetHeight()) * 255.f), 0, 255));
-
+		mWindow.clear();
+		mScene.Render(mFrameBuffer);
+		mFrameBuffer.DrawToRenderTarget(mWindow, sf::RenderStates::Default);
+		mWindow.display();
 		return mRunning;
 	}
 
@@ -61,7 +57,7 @@ namespace Core {
 	*
 	*   Handles an SFML event
 	*/ // ---------------------------------------------------------------------
-	void RaytracingApp::Event(sf::Event& event) {
+	void RaytracingApp::Event(sf::Event& event) noexcept {
 
 		//If we are required to close the window, stop running the program
 		if (event.type == sf::Event::Closed) mRunning = false;
@@ -81,9 +77,10 @@ namespace Core {
 	*   Renders the final image to the viewport
 	*/ // ---------------------------------------------------------------------
 	void RaytracingApp::Render() {
-		mWindow.clear();
-		mFrameBuffer.DrawToRenderTarget(mWindow, sf::RenderStates::Default);
-		mWindow.display();
+		//mWindow.clear();
+		//mScene.Render(mFrameBuffer);
+		//mFrameBuffer.DrawToRenderTarget(mWindow, sf::RenderStates::Default);
+		//mWindow.display();
 	}
 	
 	// ------------------------------------------------------------------------

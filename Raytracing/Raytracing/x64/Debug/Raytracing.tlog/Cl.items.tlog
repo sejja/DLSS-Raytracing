@@ -1,3 +1,10 @@
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Composition\Object.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Debug\Object.obj
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Composition\Scene.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Debug\Scene.obj
 C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Core\FrameBuffer.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Debug\FrameBuffer.obj
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\Camera.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Debug\Camera.obj
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\Light.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Debug\Light.obj
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\PointLight.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Debug\PointLight.obj
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Graphics\Primitives\Sphere.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Debug\Sphere.obj
 C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Raytracing.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Debug\Raytracing.obj
 C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Core\RaytracingApp.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Debug\RaytracingApp.obj
+C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\Trace\Ray.cpp;C:\Users\Usuario\Desktop\WorkFolder\Raytracing\DLSS-Raytracing\Raytracing\Raytracing\x64\Debug\Ray.obj

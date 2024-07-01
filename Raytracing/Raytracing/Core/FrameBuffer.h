@@ -23,16 +23,18 @@ namespace Core {
     #pragma region //Methods
         void SetSize(const std::size_t width, const std::size_t height);
         void DrawToRenderTarget(sf::RenderTarget& target, sf::RenderStates states);
-        void SetColor(const std::size_t x, const std::size_t y, const sf::Color& color);
-        DONTDISCARD std::size_t GetWidth() const;
-        DONTDISCARD std::size_t GetHeight() const;
-        DONTDISCARD sf::Color GetColor(const std::size_t x, const std::size_t y) const;
+        void SetColor(const std::size_t x, const std::size_t y, const sf::Color& color) noexcept;
+        DONTDISCARD inline std::size_t GetWidth() const noexcept;
+        DONTDISCARD inline std::size_t GetHeight() const noexcept;
+        DONTDISCARD sf::Color GetColor(const std::size_t x, const std::size_t y) const noexcept;
     private:
+        void ComputeMaxValues();
         DONTDISCARD inline std::size_t getBufferPixelSize() const;
         DONTDISCARD inline std::size_t pixelIndex(const std::size_t x, const std::size_t y) const;
     #pragma endregion
 
     #pragma endregion //Members
+		double mRed, mGreen, mBlue, mGlobalMax;
         std::size_t mWidth, mHeight;
 		std::unique_ptr<sf::Uint8[]> mPixels;
 		sf::Texture mTexture;
@@ -55,6 +57,24 @@ namespace Core {
     */ // ---------------------------------------------------------------------
     std::size_t FrameBuffer::pixelIndex(const std::size_t x, const std::size_t y) const {
         return ((y * mWidth) + x) * 4;
+    }
+
+    // ------------------------------------------------------------------------
+    /*! Get Width
+    *
+    *   Returns the Width of the FrameBuffer
+    */ // ---------------------------------------------------------------------
+    std::size_t FrameBuffer::GetWidth() const noexcept {
+        return mWidth;
+    }
+
+    // ------------------------------------------------------------------------
+    /*! Get Height
+    *
+    *   Returns the Height of the FrameBuffer
+    */ // ---------------------------------------------------------------------
+    std::size_t FrameBuffer::GetHeight() const noexcept {
+        return mHeight;
     }
 }
 
