@@ -15,7 +15,8 @@ namespace Composition {
 	*
 	*   
 	*/ // ---------------------------------------------------------------------
-	Object::Object() noexcept {}
+	Object::Object() noexcept :
+		mColor{1.0, 1.0, 1.0} {}
 
 	// ------------------------------------------------------------------------
 	/*! Destructor
@@ -32,7 +33,6 @@ namespace Composition {
 	*/ // ---------------------------------------------------------------------
 	bool Object::AssignMaterial(const std::shared_ptr<Graphics::Primitives::Material>& objMaterial) noexcept {
 		mMaterial = objMaterial;
-		mHasMaterial = static_cast<bool>(objMaterial);
-		return mHasMaterial;
+		return static_cast<bool>(mMaterial);
 	}
 }

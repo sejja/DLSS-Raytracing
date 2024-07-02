@@ -44,7 +44,6 @@ namespace Composition {
 		glm::dvec3 mColor;
 		Math::Transform mTransform;
 		std::shared_ptr<Graphics::Primitives::Material> mMaterial;
-		bool mHasMaterial;
 	#pragma endregion
 	};
 

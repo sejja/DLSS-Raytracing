@@ -60,9 +60,9 @@ namespace Core {
 		for (size_t x = 0; x < mWidth; x++)
             for (size_t y = 0; y < mHeight; y++) {
                 const sf::Color c = GetColor(x, y);
-				SetColor(x, y, sf::Color{ static_cast<sf::Uint8>((c.r / mGlobalMax) * 255), 
-                                                static_cast<sf::Uint8>((c.g / mGlobalMax) * 255), 
-                                                static_cast<sf::Uint8>((c.b / mGlobalMax) * 255), 255 });
+				SetColor(x, y, sf::Color{ static_cast<sf::Uint8>(std::min((c.r / mGlobalMax) * 255, 255.0)), 
+                                                static_cast<sf::Uint8>(std::min((c.g / mGlobalMax) * 255, 255.0)),
+                                                static_cast<sf::Uint8>(std::min((c.b / mGlobalMax) * 255, 255.0))});
             }
 
         mTexture.update(mPixels.get());
