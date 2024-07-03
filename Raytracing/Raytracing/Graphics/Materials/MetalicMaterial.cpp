@@ -15,11 +15,10 @@ namespace Graphics {
 		*
 		*
 		*/ // ---------------------------------------------------------------------
-		MetalicMaterial::MetalicMaterial() noexcept : mColor{ 0.0f } {
+		MetalicMaterial::MetalicMaterial() noexcept :
+			mColor{ 0.0f }, mShininess(0), mReflectivity(0) {
 			mReflectionRayCount = 0;
-			mReflectionCountMax = 1;
-			mShininess = 0.f;
-			mReflectivity = 0.f;
+			mReflectionCountMax = 4;
 		}
 
 		// ------------------------------------------------------------------------
@@ -59,41 +58,34 @@ namespace Graphics {
 			if (mShininess > 0.0)
 				spcColor = ComputeSpecular(objList, lightList, currObject, intersectionPoint, normalPoint, camRay);
 
-			// Add the specular component to the final color.
-			matColor = matColor + spcColor;
-
-			return matColor;
+			return matColor + spcColor;
 		}
 
 		// ------------------------------------------------------------------------
 		/*! Compute Specular
 		*
-		*
+		*   Compute the specular component of the object
 		*/ // ---------------------------------------------------------------------
 		glm::dvec3 MetalicMaterial::ComputeSpecular(const std::vector<std::shared_ptr<Composition::Object>>& objList,
 																		const std::vector<std::shared_ptr<Primitives::Lighting::Light>>& lightList, 
 																		const std::shared_ptr<Composition::Object>& currObject, 
 																		const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint, 
 																		const Trace::Ray& camRay) const noexcept {
-			glm::dvec3 spcColor = glm::dvec3();
-			double red = 0.0;
-			double green = 0.0;
-			double blue = 0.0;
+			glm::dvec3 col = glm::dvec3();
 
 			// Loop through all of the lights in the scene.
-			for (auto currentLight : lightList)
-			{
+			for (auto& currentLight : lightList) {
 				/* Check for intersections with all objects in the scene. */
 				double intensity = 0.0;
 
 				// Construct a vector pointing from the intersection point to the light.
-				glm::dvec3 lightDir = glm::normalize(currentLight->GetPosition() - intersectionPoint);
+				const glm::dvec3 lightDir = glm::normalize(currentLight->GetPosition() - intersectionPoint);
 
 				// Compute a start point.
-				glm::dvec3 startPoint = intersectionPoint + (lightDir * 0.001);
+				const glm::dvec3 startPoint = intersectionPoint + (lightDir * 0.001);
 
 				// Construct a ray from the point of intersection to the light.
-				Trace::Ray lightRay(startPoint, startPoint + lightDir);
+				const Trace::Ray lightRay(startPoint, startPoint + lightDir);
 
 				/* Loop through all objects in the scene to check if any
 					obstruct light from this source. */
@@ -101,8 +93,7 @@ namespace Graphics {
 				glm::dvec3 poiNormal = glm::dvec3();;
 				glm::dvec3 poiColor = glm::dvec3();;
 				bool validInt = false;
-				for (auto sceneObject : objList)
-				{
+				for (auto& sceneObject : objList) {
 					validInt = sceneObject->TestIntersection(lightRay, poi, poiNormal, poiColor);
 					if (validInt)
 						break;
@@ -110,39 +101,47 @@ namespace Graphics {
 
 				/* If no intersections were found, then proceed with
 					computing the specular component. */
-				if (!validInt)
-				{
-					// Compute the reflection vector.
-					glm::dvec3 d = lightRay.GetEndPoint() - lightRay.GetOrigin();
-					glm::dvec3 r = glm::normalize(d - (2 * glm::dot(d, normalPoint) * normalPoint));
-
+				if (!validInt) {
 					// Compute the dot product.
-					glm::dvec3 v = glm::normalize(camRay.GetEndPoint() - camRay.GetOrigin());
-					double dotProduct = glm::dot(r, v);
+					const double dotProduct = glm::dot(glm::reflect(lightRay.GetEndPoint() - lightRay.GetOrigin(), normalPoint),
+								glm::normalize(camRay.GetEndPoint() - camRay.GetOrigin()));
 
 					// Only proceed if the dot product is positive.
 					if (dotProduct > 0.0f)
-					{
 						intensity = mReflectivity * std::pow(dotProduct, mShininess);
-					}
 				}
 
-				red += currentLight->GetColor().x * intensity;
-				green += currentLight->GetColor().y * intensity;
-				blue += currentLight->GetColor().z * intensity;
+				col.r += currentLight->GetColor().x * intensity;
+				col.g += currentLight->GetColor().y * intensity;
+				col.g += currentLight->GetColor().z * intensity;
 			}
 
-			spcColor.x = red;
-			spcColor.y = green;
-			spcColor.z = blue;
-			return spcColor;
+			return col;
 		}
+
+		// ------------------------------------------------------------------------
+		/*! Set Color
+		*
+		*   Sets the Color of an object
+		*/ // ---------------------------------------------------------------------
 		void MetalicMaterial::SetColor(const glm::dvec3& color) noexcept {
 			mColor = color;
 		}
+
+		// ------------------------------------------------------------------------
+		/*! Set Shininess
+		*
+		*   Sets the Shininess of the material
+		*/ // ---------------------------------------------------------------------
 		void MetalicMaterial::SetShininess(double shininess) noexcept {
 			mShininess = shininess;
 		}
+
+		// ------------------------------------------------------------------------
+		/*! 
+		*
+		*   Compute the specular component of the object
+		*/ // ---------------------------------------------------------------------
 		void MetalicMaterial::SetReflectivity(double reflectivity) noexcept {
 			mReflectivity = reflectivity;
 		}

@@ -27,13 +27,10 @@ namespace Graphics {
 		*   Generates a Ray from the Camera Position to the given coordinates
 		*/ // ---------------------------------------------------------------------
 		bool Camera::GenerateRay(const double x, const double y, Trace::Ray& cameraRay) const noexcept {
-			// Compute the location of the screen point in world coordinates.
-			glm::dvec3 screenWorldPart1 = mProjectionScreenCenter + (mProjectionScreenU * x);
-			glm::dvec3 screenWorldCoordinate = screenWorldPart1 + (mProjectionScreenV * y);
-
 			// Use this point along with the camera position to compute the ray.
 			cameraRay.SetOrigin(mCameraPosition);
-			cameraRay.SetEndPoint(screenWorldCoordinate);
+			cameraRay.SetEndPoint(mProjectionScreenCenter + 
+				(mProjectionScreenU * x) + (mProjectionScreenV * y));
 
 			return true;
 		}
@@ -48,15 +45,11 @@ namespace Graphics {
 			mAlignmentVector = glm::normalize(mCameraLookAt - mCameraPosition);
 
 			// Second, compute the U and V vectors.
-			mProjectionScreenU = glm::normalize(glm::cross(mAlignmentVector, mCameraUp));
-			mProjectionScreenV = glm::normalize(glm::cross(mProjectionScreenU, mAlignmentVector));
+			mProjectionScreenU = glm::normalize(glm::cross(mAlignmentVector, mCameraUp)) * mCameraHorizonSize;
+			mProjectionScreenV = glm::normalize(glm::cross(mProjectionScreenU, mAlignmentVector)) * (mCameraHorizonSize / mCameraAspectRatio);
 
 			// Thirdly, compute the positon of the centre point of the screen.
-			mProjectionScreenCenter = mCameraPosition + (mCameraLength * mAlignmentVector);
-
-			// Modify the U and V vectors to match the size and aspect ratio.
-			mProjectionScreenU = mProjectionScreenU * mCameraHorizonSize;
-			mProjectionScreenV = mProjectionScreenV * (mCameraHorizonSize / mCameraAspectRatio);
+			mProjectionScreenCenter = mCameraPosition + (mCameraLength * mAlignmentVector);;
 		}
 
 		// ------------------------------------------------------------------------

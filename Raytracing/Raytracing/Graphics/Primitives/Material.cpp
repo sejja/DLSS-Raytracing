@@ -27,7 +27,7 @@ namespace Graphics {
 		// ------------------------------------------------------------------------
 		/*! Compute Color
 		*
-		*
+		*   Compute the color of the object
 		*/ // ---------------------------------------------------------------------
 		glm::dvec3 Material::ComputeColor(
 			const std::vector<std::shared_ptr<Composition::Object>>& objList,
@@ -35,15 +35,13 @@ namespace Graphics {
 			const std::shared_ptr<Composition::Object>& currObject,
 			const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
 			const Trace::Ray& camRay) const noexcept {
-			glm::dvec3 color = mColor;
-			
-			return color;
+			return mColor;
 		}
 
 		// ------------------------------------------------------------------------
 		/*! Compute Color
 		*
-		*
+		*	Compute the Diffuse channel of the color
 		*/ // ---------------------------------------------------------------------
 		glm::dvec3 Material::ComputeColorDiffuse(
 			const std::vector<std::shared_ptr<Composition::Object>>& objList,
@@ -54,28 +52,25 @@ namespace Graphics {
 			glm::dvec3 diffuseColor = glm::dvec3(0.f);
 			double intensity = 0.0;
 			glm::dvec3 color = glm::dvec3(0.f);
-			double red = 0.0;
-			double green = 0.0;
-			double blue = 0.0;
-			bool validIllum = false;
+			glm::dvec3 tempcol = glm::dvec3(0.f);
 			bool illumFound = false;
-			for (auto currentLight : lightList)
-			{
-				validIllum = currentLight->ComputeLighting(intersectionPoint, normalPoint, objList, currObject, color, intensity);
-				if (validIllum)
-				{
-					illumFound = true;
-					red += color.x * intensity;
-					green += color.y * intensity;
-					blue += color.z * intensity;
-				}
-			}
 
-			if (illumFound)
-			{
-				diffuseColor.x = red * basecolor.x;
-				diffuseColor.y = green * basecolor.y;
-				diffuseColor.z = blue * basecolor.z;
+			// Compute the diffuse color.
+			for (auto& currentLight : lightList)
+
+				// Compute the light intensity.
+				if (currentLight->ComputeLighting(intersectionPoint, normalPoint, objList, currObject, color, intensity)) {
+					illumFound = true;
+					tempcol.r += color.x * intensity;
+					tempcol.g += color.y * intensity;
+					tempcol.b += color.z * intensity;
+				}
+
+			// If we found an illumination, compute the final color.
+			if (illumFound) {
+				diffuseColor.x = tempcol.r * basecolor.x;
+				diffuseColor.y = tempcol.g * basecolor.y;
+				diffuseColor.z = tempcol.b * basecolor.z;
 			}
 
 			// Return the material color.
@@ -92,34 +87,27 @@ namespace Graphics {
 																		const std::shared_ptr<Composition::Object>& currObject, 
 																		const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
 																		const Trace::Ray& camRay) const noexcept {
-			glm::dvec3 reflectionColor = glm::dvec3(0.f);
-			glm::dvec3 d = camRay.GetEndPoint() - camRay.GetOrigin();
-			glm::dvec3 reflectionVector = glm::reflect(d, normalPoint); //MIGHT POTENTIALLY BE WRONG
+			const Trace::Ray reflectionRay(intersectionPoint, intersectionPoint + glm::reflect(camRay.GetEndPoint() - camRay.GetOrigin(), normalPoint));
 
-			Trace::Ray reflectionRay(intersectionPoint, intersectionPoint + reflectionVector);
+			std::shared_ptr<Composition::Object> closestObject = nullptr;
+			glm::dvec3 closestinpoint = glm::dvec3(0);
+			glm::dvec3 closestinnormal = glm::dvec3(0);
+			glm::dvec3 closestoutcolor = glm::dvec3(0);
+			glm::dvec3 matColor = glm::dvec3(0);
 
-			std::shared_ptr<Composition::Object> closestObject;
-			glm::dvec3 closestinpoint = glm::dvec3(0.f);
-			glm::dvec3 closestinnormal = glm::dvec3(0.f);
-			glm::dvec3 closestoutcolor = glm::dvec3(0.f);
-			bool intersection = CastRay(reflectionRay, objList, closestObject, closestinpoint, closestinnormal, closestoutcolor);
-
-			glm::dvec3 matColor = glm::dvec3();
-			if (intersection && mReflectionRayCount < mReflectionCountMax) {
+			// Cast the reflection ray.
+			if (CastRay(reflectionRay, objList, closestObject, closestinpoint, closestinnormal, closestoutcolor)
+				&& mReflectionRayCount < mReflectionCountMax) {
 				mReflectionRayCount++;
-				if (closestObject->HasMaterial()) {
+				
+				// Check if the closest object has a material.
+				if (closestObject->HasMaterial())
 					matColor = closestObject->GetMaterial()->ComputeColor(objList, lightList, closestObject, closestinpoint, closestinnormal, reflectionRay);
-				}
-				else {
+				else
 					matColor = ComputeColorDiffuse(objList, lightList, closestObject, closestinpoint, closestinnormal, closestObject->GetColor());
-				}
-			}
-			else {
-				reflectionColor = glm::dvec3(0.0f);
 			}
 
-			reflectionColor = matColor;
-			return reflectionColor;
+			return matColor;
 		}
 
 		// ------------------------------------------------------------------------
@@ -131,16 +119,19 @@ namespace Graphics {
 										const std::vector<std::shared_ptr<Composition::Object>>& objList, 
 										std::shared_ptr<Composition::Object>& closestobj, glm::dvec3& inpoint, 
 										glm::dvec3& innormal, glm::dvec3& outcolor) const noexcept {
-			glm::dvec3 intPoint;
-			glm::dvec3 localNormal;
-			glm::dvec3 localColor;
+			glm::dvec3 intPoint = glm::dvec3(0);
+			glm::dvec3 localNormal = glm::dvec3(0);
+			glm::dvec3 localColor = glm::dvec3(0);
 			double minDist = std::numeric_limits<double>::max();
 			bool foundIntersection = false;
 
-			for (auto& obj : objList) {
+			// Loop through all of the objects in the scene.
+			for (auto& obj : objList)
+				// Check for intersections with the current object.
 				if (obj->TestIntersection(ray, intPoint, localNormal, localColor)) {
 					foundIntersection = true;
 					const double dist = glm::length(intPoint - ray.GetOrigin());
+					// Check if the intersection is the closest one.
 					if (dist < minDist) {
 						minDist = dist;
 						closestobj = obj;
@@ -149,7 +140,7 @@ namespace Graphics {
 						outcolor = localColor;
 					}
 				}
-			}
+
 			return foundIntersection;
 		}
 	}

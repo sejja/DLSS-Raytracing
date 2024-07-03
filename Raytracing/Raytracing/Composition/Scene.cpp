@@ -67,60 +67,78 @@ namespace Composition {
 		mCamera.SetHorizonSize(0.75);
 		mCamera.SetAspectRatio(16.0 / 9.0);
 
-		mObjects.emplace_back(std::make_shared<Graphics::Shapes::Cone>());
-		mObjects.emplace_back(std::make_shared<Graphics::Shapes::Sphere>());
-		mObjects.emplace_back(std::make_shared<Graphics::Shapes::Cylinder>());
-		mObjects.emplace_back(std::make_shared<Graphics::Shapes::Plane>());
-		//mObjects.emplace_back(std::make_shared<Graphics::Shapes::Plane>());
+		// Create and setup objects.
+		auto cone = std::make_shared<Graphics::Shapes::Cone>();
+		cone->SetTransform(Math::Transform{ glm::vec3{0.0, 0.0, -0.5},
+																							glm::vec3{0.0, 0.0, 0.0},
+																							glm::vec3{1.0, 1.0, 2.0} });
+		cone->AssignMaterial(silverMetal);
 
-		Math::Transform t1;
-		t1.SetTransform(glm::vec4(-1.5f, 0.f, 0.f, 1.f), 
-								glm::vec4(0.f, 0.f, 0.f, 1.f), 
-								glm::vec4(0.5f, 0.5f, 0.5f, 1.f));
+		auto leftSphere = std::make_shared<Graphics::Shapes::Sphere>();
+		leftSphere->SetTransform(Math::Transform{ glm::vec3{1.5, -2.0, 0.5},
+																										glm::vec3{0.0, 0.0, 0.0},
+																										glm::vec3{0.5, 0.5, 0.5} });
+		leftSphere->AssignMaterial(blueDiffuse);
 
-		Math::Transform t2;
-		t2.SetTransform(glm::vec4(0.f, 0.f, 0.f, 1.f),
-			glm::vec4(0.f, 0.f, 0.f, 1.f),
-			glm::vec4(0.5f, 0.5f, 0.5f, 1.f));
+		auto rightSphere = std::make_shared<Graphics::Shapes::Sphere>();
+		rightSphere->SetTransform(Math::Transform{ glm::vec3{1.5, 0.0, 0.0},
+																										glm::vec3{0.0, 0.0, 0.0},
+																										glm::vec3{1.0, 1.0, 1.0} });
+		rightSphere->AssignMaterial(yellowDiffuse);
 
-		Math::Transform t3;
-		t3.SetTransform(glm::vec4(1.5f, 0.f, 0.f, 1.f),
-			glm::vec4(0.f, 0.f, 0.f, 1.f),
-			glm::vec4(0.5f, 0.5f, 0.5f, 1.f));
+		auto topSphere = std::make_shared<Graphics::Shapes::Sphere>();
+		topSphere->SetTransform(Math::Transform{ glm::vec3{0.0, 0.0, -1.0},
+																										glm::vec3{0.0, 0.0, 0.0},
+																										glm::vec3{0.5, 0.5, 0.5} });
+		topSphere->AssignMaterial(orangeDiffuse);
 
-		Math::Transform t4;
-		t4.SetTransform(glm::vec4(0.f, 0.f, 0.75f, 1.f),
-			glm::vec4(0.f, 0.f, 0.f, 1.f),
-			glm::vec4(18.f, 8.f, 1.f, 1.f));
+		auto floor = std::make_shared<Graphics::Shapes::Plane>();
+		floor->SetTransform(Math::Transform{ glm::vec3{0.0, 0.0, 1.0},
+																								glm::vec3{0.0, 0.0, 0.0},
+																								glm::vec3{16.0, 16.0, 1.0} });
+		floor->AssignMaterial(floorMaterial);
 
 		auto leftWall = std::make_shared<Graphics::Shapes::Plane>();
 		leftWall->SetTransform(Math::Transform{ glm::vec3{-4.0, 0.0, 0.0},
-																glm::vec3{0.0, -PI / 2.0, -PI / 2.0},
+																									glm::vec3{0.0, -PI / 2.0, -PI / 2.0},
 																									glm::vec3{16.0, 16.0, 1.0} });
+		leftWall->AssignMaterial(wallMaterial);
 
 		auto backWall = std::make_shared<Graphics::Shapes::Plane>();
 		backWall->SetTransform(Math::Transform{ glm::vec3{0.0, 4.0, 0.0},
-																								glm::vec3{-PI / 2.0, 0.0, 0.0},
-																								glm::vec3{36.0, 16.0, 1.0} });
+																									glm::vec3{-PI / 2.0, 0.0, 0.0},
+																									glm::vec3{16.0, 16.0, 1.0} });
+		backWall->AssignMaterial(wallMaterial);
 
-		//mObjects.emplace_back(leftWall);
-		mObjects.emplace_back(backWall);
-		backWall->SetColor({ 0.25f, 0.25f, 0.6f });
-		leftWall->SetColor({ 0.6f, 0.25f, 0.25f});
+		auto cylinder1 = std::make_shared<Graphics::Shapes::Cylinder>();
+		cylinder1->SetTransform(Math::Transform{ glm::vec3{-1.5, -2.0, 1.0},
+																										glm::vec3{0.0, -PI / 2.0, 0.0},
+																										glm::vec3{0.25, 0.25, 1.0} });
+		cylinder1->AssignMaterial(goldMetal);
 
-		mObjects[0]->SetTransform(t1);
-		mObjects[1]->SetTransform(t2);
-		mObjects[2]->SetTransform(t3);
-		mObjects[3]->SetTransform(t4);
-		//mObjects[3]->SetTransform(t4);
-		mObjects[1]->AssignMaterial(goldMetal);
-		mObjects[2]->AssignMaterial(blueDiffuse);
-		mObjects[3]->AssignMaterial(floorMaterial);;
+		auto cylinder2 = std::make_shared<Graphics::Shapes::Cylinder>();
+		cylinder2->SetTransform(Math::Transform{ glm::vec3{-1.0, -2.0, 0.0},
+																										glm::vec3{0.0, 0.0, 0.0},
+																										glm::vec3{0.25, 0.25, 1.0} });
+		cylinder2->AssignMaterial(silverMetal);
 
-		mObjects[0]->SetColor(glm::dvec3(1.f, 0.0, 0.0));
-		mObjects[1]->SetColor(glm::dvec3(0.0, 1.f, 0.0));
-		mObjects[2]->SetColor(glm::dvec3 (0.0, 0.0, 1.f));
-		mObjects[3]->SetColor(glm::dvec3(0.5f, 0.5f, 0.5f));
+		auto cone2 = std::make_shared<Graphics::Shapes::Cone>();
+		cone2->SetTransform(Math::Transform{ glm::vec3{0.0, -1.0, 0.0},
+																								glm::vec3{PI / 4.0, 0.0, 0.0},
+																								glm::vec3{0.5, 0.5, 1.0} });
+		cone2->AssignMaterial(goldMetal);
+
+		// Put the objects into the scene.	
+		mObjects.push_back(cone);
+		mObjects.push_back(leftSphere);
+		mObjects.push_back(rightSphere);
+		mObjects.push_back(topSphere);
+		mObjects.push_back(floor);
+		mObjects.push_back(leftWall);
+		mObjects.push_back(backWall);
+		mObjects.push_back(cylinder1);
+		mObjects.push_back(cylinder2);
+		mObjects.push_back(cone2);
 
 		mLights.push_back(std::make_shared<Graphics::Primitives::Lighting::PointLight>());
 		mLights[0]->SetPosition(glm::dvec3{ 5.0, -10.0, -5.0 });
