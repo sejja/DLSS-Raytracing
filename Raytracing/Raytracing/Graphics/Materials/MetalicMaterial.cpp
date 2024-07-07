@@ -18,7 +18,7 @@ namespace Graphics {
 		MetalicMaterial::MetalicMaterial() noexcept :
 			mColor{ 0.0f }, mShininess(0), mReflectivity(0) {
 			mReflectionRayCount = 0;
-			mReflectionCountMax = 4;
+			mReflectionCountMax = 3;
 		}
 
 		// ------------------------------------------------------------------------
