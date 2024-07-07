@@ -14,6 +14,7 @@
 #include "../Graphics/Shapes/Sphere.h"
 #include "../Graphics/Shapes/Cone.h"
 #include "../Graphics/Shapes/Cylinder.h"
+#include "../Graphics/Textures/Checker.h"
 
 namespace Composition {
 
@@ -28,10 +29,18 @@ namespace Composition {
 		testMat->SetReflectivity(0.5f);
 		testMat->SetShininess(10.f);
 
+		auto testMat2 = std::make_shared<Graphics::Materials::MetalicMaterial>();
+		testMat2->SetColor(glm::dvec3(0.25f, 0.5f, 0.8f));
+		testMat2->SetReflectivity(0.5f);
+		testMat2->SetShininess(10.f);
+
 		auto wallMaterial = std::make_shared<Graphics::Materials::MetalicMaterial>();
 		wallMaterial->SetColor({ 1.0, 0.125, 0.125 });
 		wallMaterial->SetReflectivity(0.75);
 		wallMaterial->SetShininess(0.0);
+
+		auto checker_text = std::make_shared<Graphics::Textures::Checker>();
+		checker_text->SetTransform({ 0.0, 0.0, 1.0 }, 0.0, { 18.0, 18.0, 1.0 });
 
 
 		// Configure the camera.
@@ -94,8 +103,9 @@ namespace Composition {
 		mObjects[2]->SetColor(glm::dvec3(0.0, 0.0, 1.f));
 		mObjects[3]->SetColor(glm::dvec3(0.5f, 0.5f, 0.5f));
 
-		mObjects[1]->AssignMaterial(testMat);
+		mObjects[1]->AssignMaterial(testMat2);
 		mObjects[3]->AssignMaterial(testMat);
+		mObjects[3]->GetMaterial()->SetTexture(checker_text);
 
 		mLights.push_back(std::make_shared<Graphics::Primitives::Lighting::PointLight>());
 		mLights[0]->SetPosition(glm::dvec3{ 5.0, -10.0, -5.0 });

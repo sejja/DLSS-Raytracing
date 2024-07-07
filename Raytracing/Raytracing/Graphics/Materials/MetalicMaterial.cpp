@@ -45,7 +45,7 @@ namespace Graphics {
 			glm::dvec3 spcColor = glm::dvec3(0.f);
 
 			// Compute the diffuse component.
-			difColor = ComputeColorDiffuse(objList, lightList, currObject, intersectionPoint, normalPoint, mColor);
+			difColor = ComputeColorDiffuse(objList, lightList, currObject, intersectionPoint, normalPoint, mTexture != nullptr ? mTexture->GetColor(currObject->GetUV()) : mColor);
 
 			// Compute the reflection component.
 			if (mReflectivity > 0.0)

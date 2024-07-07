@@ -160,6 +160,13 @@ namespace Graphics {
 
 				// Return the base color.
 				localColor = mColor;
+				double x = validPOI.x;
+				double y = validPOI.y;
+				double z = validPOI.z;
+				double u = atan2(y, x) / PI;
+				double v = z;
+
+				mUVs = glm::dvec2(u, v);
 
 				return true;
 			}
@@ -182,6 +189,11 @@ namespace Graphics {
 
 						// Return the base color.
 						localColor = mColor;
+						double x = validPOI.x;
+						double y = validPOI.y;
+						double z = validPOI.z;
+
+						mUVs = glm::dvec2(x, y);
 
 						return true;
 					}

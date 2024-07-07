@@ -37,6 +37,7 @@ namespace Composition {
 		DONTDISCARD inline bool HasMaterial() const noexcept;
 		DONTDISCARD inline std::shared_ptr<Graphics::Primitives::Material> GetMaterial() const noexcept;
 		DONTDISCARD inline glm::dvec3 GetColor() const noexcept;
+		DONTDISCARD inline glm::dvec2 GetUV() const noexcept;
 	#pragma endregion
 
 	#pragma region //Members
@@ -44,6 +45,7 @@ namespace Composition {
 		glm::dvec3 mColor;
 		Math::Transform mTransform;
 		std::shared_ptr<Graphics::Primitives::Material> mMaterial;
+		glm::dvec2 mUVs;
 	#pragma endregion
 	};
 
@@ -108,6 +110,11 @@ namespace Composition {
 	*/ // ---------------------------------------------------------------------
 	glm::dvec3 Object::GetColor() const noexcept {
 		return mColor;
+	}
+
+	glm::dvec2 Object::GetUV() const noexcept
+	{
+		return mUVs;
 	}
 }
 

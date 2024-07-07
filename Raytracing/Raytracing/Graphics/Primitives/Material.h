@@ -15,6 +15,7 @@
 #include "../../Composition/Object.h"
 #include "../../Trace/Ray.h"
 #include "Lighting/Light.h"
+#include "Texture.h"
 
 namespace Graphics {
 	namespace Primitives {
@@ -48,6 +49,7 @@ namespace Graphics {
 								const std::vector<std::shared_ptr<Composition::Object>>& objList,	
 								std::shared_ptr<Composition::Object>& closestobj, 
 								glm::dvec3& inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) const noexcept;
+			void SetTexture(const std::shared_ptr<Texture>& texture) noexcept;
 #pragma endregion
 
 #pragma region //Members
@@ -55,6 +57,7 @@ namespace Graphics {
 			inline static int mReflectionCountMax;
 		protected:
 			glm::dvec3 mColor;
+			std::shared_ptr<Texture> mTexture;
 #pragma endregion
 		};
 	}

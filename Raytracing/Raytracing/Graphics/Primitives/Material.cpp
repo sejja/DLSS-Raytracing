@@ -15,7 +15,7 @@ namespace Graphics {
 		*
 		*
 		*/ // ---------------------------------------------------------------------
-		Material::Material() noexcept : mColor{ 0.0f } {}
+		Material::Material() noexcept : mColor{ 0.0f }, mTexture(nullptr) {}
 
 		// ------------------------------------------------------------------------
 		/*! Destructor
@@ -142,6 +142,10 @@ namespace Graphics {
 				}
 
 			return foundIntersection;
+		}
+
+		void Material::SetTexture(const std::shared_ptr<Texture>& texture) noexcept {
+			mTexture = texture;
 		}
 	}
 }

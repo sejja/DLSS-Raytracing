@@ -48,6 +48,7 @@ namespace Graphics {
 						inpoint = mTransform.ApplyTransform(backray.GetOrigin() + (rayDir * t));
 						innormal = glm::normalize(mTransform.ApplyTransform(glm::dvec3(0.f, 0.f, -1.f)) - mTransform.ApplyTransform(glm::dvec3(0.0f, 0.0f, 0.0f)));
 						outcolor = mColor;
+						mUVs = glm::dvec2(u, v);
 						return true;
 					}
 				}

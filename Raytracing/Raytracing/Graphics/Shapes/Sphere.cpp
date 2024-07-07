@@ -59,6 +59,20 @@ namespace Graphics {
 					inpoint = mTransform.ApplyTransform(newRay.GetOrigin() + (glm::normalize(newRay.GetEndPoint() - newRay.GetOrigin()) * ((t1 < t2) ? t1 : t2)));
 					innormal = glm::normalize(inpoint - mTransform.ApplyTransform(glm::dvec3(0.0f, 0.0f, 0.0f)));
 					outcolor = mColor;
+
+					double x = inpoint.x;
+					double y = inpoint.y;
+					double z = inpoint.z;
+					double u = atan(sqrt(x * x + y * y) / z);
+					double v = atan(y / x);
+
+					if (x < 0.0)
+						v += PI;
+
+					u /= PI;
+					v /= PI;
+
+					mUVs = glm::dvec2(u, v);
 				}
 
 				return true; 
