@@ -66,6 +66,7 @@ namespace Core {
             }
 
         mTexture.update(mPixels.get());
+		mTexture.copyToImage().saveToFile("output.png");
         target.draw(sf::Sprite(mTexture), states);
     }
 

@@ -60,9 +60,9 @@ namespace Composition {
 		//mObjects.emplace_back(std::make_shared<Graphics::Shapes::Plane>());
 
 		Math::Transform t1;
-		t1.SetTransform(glm::vec4(-1.5f, 0.f, 0.f, 1.f),
-			glm::vec4(0.f, 0.f, 0.f, 1.f),
-			glm::vec4(0.5f, 0.5f, 0.5f, 1.f));
+		t1.SetTransform(glm::vec4(-1.5f, 0.f, 0.f, 1.f), //Translacion
+			glm::vec4(0.f, 0.f, 0.f, 1.f), //Rotacion
+			glm::vec4(0.5f, 0.5f, 0.5f, 1.f)); //Escala
 
 		Math::Transform t2;
 		t2.SetTransform(glm::vec4(0.f, 0.f, 0.f, 1.f),
@@ -81,8 +81,8 @@ namespace Composition {
 
 		auto leftWall = std::make_shared<Graphics::Shapes::Plane>();
 		leftWall->SetTransform(Math::Transform{ glm::vec3{-4.0, 0.0, 0.0},
-																glm::vec3{0.0, -PI / 2.0, -PI / 2.0},
-																									glm::vec3{16.0, 16.0, 1.0} });
+															      glm::vec3{0.0, -PI / 2.0, -PI / 2.0},
+																  glm::vec3{16.0, 16.0, 1.0} });
 
 		auto backWall = std::make_shared<Graphics::Shapes::Plane>();
 		backWall->SetTransform(Math::Transform{ glm::vec3{0.0, 4.0, 0.0},

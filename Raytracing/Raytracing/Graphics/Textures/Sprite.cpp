@@ -16,41 +16,14 @@ namespace Graphics {
 			double u = newLoc.x;
 			double v = newLoc.y;
 
-			// Convert (u,v) to image dimensions (x,y).
 			int x = static_cast<int>(round(((u + 1.0) / 2.0) * static_cast<double>(mTexture.getSize().x)));
 			int y = mTexture.getSize().y - (static_cast<int>(round(((v + 1.0) / 2.0) * static_cast<double>(mTexture.getSize().y))));
 
-			/* Modulo arithmetic to account for possible tiling.
-				For example:
-				m_xSize = 10;
-				x = 5 =>
-					((5 % 10) + 10) % 10 = 5
-
-				x = 10 =>
-					((10 % 10) + 10) % 10 = 0
-
-				x = 11 =>
-					((11 % 10) + 10) % 10 = 1
-
-				x = -1 =>
-					((-1 % 10) + 10) % 10 = 9
-
-				x = -5 =>
-					((-5 % 10) + 10) % 10 = 5
-
-				x = -10 =>
-					((-10 % 10) + 10) % 10 = 0
-
-				x = -11 =>
-					((-11 % 10) + 10) % 10 = 9  */
 
 			x = ((x % mTexture.getSize().x) + mTexture.getSize().x) % mTexture.getSize().x;
 			y = ((y % mTexture.getSize().y) + mTexture.getSize().y) % mTexture.getSize().y;
 
-			// Verify that we are within the image.
-			// Probably not necessary, but seems like a good idea just in case.
-			if ((x >= 0) && (x < mTexture.getSize().x) && (y >= 0) && (y < mTexture.getSize().y))
-			{
+			if ((x >= 0) && (x < mTexture.getSize().x) && (y >= 0) && (y < mTexture.getSize().y)) {
 
 				auto pxl = mTexture.getPixel(x, y);
 
