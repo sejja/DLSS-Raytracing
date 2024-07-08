@@ -15,7 +15,7 @@ namespace Graphics {
 		*
 		*
 		*/ // ---------------------------------------------------------------------
-		Material::Material() noexcept : mColor{ 0.0f }, mTexture(nullptr) {}
+		Material::Material() noexcept : mColor{ 0.0f } {}
 
 		// ------------------------------------------------------------------------
 		/*! Destructor

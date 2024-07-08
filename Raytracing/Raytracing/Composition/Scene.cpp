@@ -15,6 +15,7 @@
 #include "../Graphics/Shapes/Cone.h"
 #include "../Graphics/Shapes/Cylinder.h"
 #include "../Graphics/Textures/Checker.h"
+#include "../Graphics/Textures/Sprite.h"
 
 namespace Composition {
 
@@ -34,14 +35,16 @@ namespace Composition {
 		testMat2->SetReflectivity(0.5f);
 		testMat2->SetShininess(10.f);
 
-		auto wallMaterial = std::make_shared<Graphics::Materials::MetalicMaterial>();
-		wallMaterial->SetColor({ 1.0, 0.125, 0.125 });
-		wallMaterial->SetReflectivity(0.75);
-		wallMaterial->SetShininess(0.0);
+		auto testMat3 = std::make_shared<Graphics::Materials::MetalicMaterial>();
+		testMat3->SetColor(glm::dvec3(1.f, 1.f, 1.f));
+		testMat3->SetReflectivity(0.f);
+		testMat3->SetShininess(0.f);
 
 		auto checker_text = std::make_shared<Graphics::Textures::Checker>();
 		checker_text->SetTransform({ 0.0, 0.0, 1.0 }, 0.0, { 18.0, 18.0, 1.0 });
 
+		auto prite_text = std::make_shared<Graphics::Textures::Sprite>("../Content/mario.png");
+		prite_text->SetTransform({ 2.0, 0.0, 1.0 }, 0.0, { 1.0, 1.0, 1.0 });
 
 		// Configure the camera.
 		mCamera.SetPosition({ 3.0, -5.0, -2.0 });
@@ -105,7 +108,9 @@ namespace Composition {
 
 		mObjects[1]->AssignMaterial(testMat2);
 		mObjects[3]->AssignMaterial(testMat);
+		mObjects[2]->AssignMaterial(testMat3);
 		mObjects[3]->GetMaterial()->SetTexture(checker_text);
+		mObjects[2]->GetMaterial()->SetTexture(prite_text);
 
 		mLights.push_back(std::make_shared<Graphics::Primitives::Lighting::PointLight>());
 		mLights[0]->SetPosition(glm::dvec3{ 5.0, -10.0, -5.0 });

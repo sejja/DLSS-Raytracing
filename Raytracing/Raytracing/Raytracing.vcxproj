@@ -150,6 +150,7 @@
     <ClCompile Include="Graphics\Primitives\Texture.cpp" />
     <ClCompile Include="Graphics\Textures\Checker.cpp" />
     <ClCompile Include="Graphics\Textures\Flat.cpp" />
+    <ClCompile Include="Graphics\Textures\Sprite.cpp" />
     <ClCompile Include="Math\Transform.cpp" />
     <ClCompile Include="Raytracing.cpp" />
     <ClCompile Include="Core\RaytracingApp.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Graphics\Primitives\Texture.h" />
     <ClInclude Include="Graphics\Textures\Checker.h" />
     <ClInclude Include="Graphics\Textures\Flat.h" />
+    <ClInclude Include="Graphics\Textures\Sprite.h" />
     <ClInclude Include="Math\Transform.h" />
     <ClInclude Include="Trace\Ray.h" />
   </ItemGroup>
