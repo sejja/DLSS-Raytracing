@@ -4,9 +4,9 @@ from dataset import SRDataset
 
 if __name__ == "__main__":
 
-    model = torch.jit.load("models/SRResNetx8.pth")
+    model = torch.jit.load("models/SRResNetx2.pth")
 
-    dataset = SRDataset("data/train_x8.csv", crop_size=(200, 200), scaling=8)
+    dataset = SRDataset("data/train_x2.csv", crop_size=(1080, 1080), scaling=2)
 
     for low_res, high_res in dataset:
 
