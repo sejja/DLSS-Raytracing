@@ -7,7 +7,8 @@ from PIL import Image
 
 def create_data_csv(high_res_dir: str, low_res_dir: str, csv_path: str) -> None:
     """
-    Create csv file for div2k dataset.
+    Create csv file for div2k dataset with images form a "low res" directory and a
+    "high res" directory.
 
     Args:
         high_res_dir (str): Directories of the high ersolution images.
@@ -26,6 +27,25 @@ def create_data_csv(high_res_dir: str, low_res_dir: str, csv_path: str) -> None:
         writer = csv.DictWriter(file, fieldnames=["low_res", "high_res" ])
         writer.writerows(data)
 
+def create_data_csv2d(high_res_dir: str, csv_path: str) -> None:
+    """
+    Create csv file for div2k dataset with only highres images. High res images must
+    then be downsampled before feeding them to the model.
+
+    Args:
+        high_res_dir (str): Directories of the high ersolution images.
+        low_res_dir (str): Directories of the low resolution images.
+        csv_path (str): Path of the output csv file.
+    """
+
+    data = list()
+    for hr_file in sorted(os.listdir(high_res_dir)):
+        hr_path = os.path.join(high_res_dir, hr_file)
+        data.append(hr_path)
+
+    with open(csv_path, "w") as file:
+        for line in data:
+            file.write(line + "\n")
 
 def png_to_tensor(image_path: str) -> Tensor:
     """

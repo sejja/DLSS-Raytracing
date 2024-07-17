@@ -4,7 +4,7 @@ from dataset import SRDataset
 
 if __name__ == "__main__":
 
-    model = torch.jit.load("models/SRResNet_02.pth")
+    model = torch.jit.load("models/SRResNetx8.pth")
 
     dataset = SRDataset("data/train_x8.csv", crop_size=(200, 200), scaling=8)
 
