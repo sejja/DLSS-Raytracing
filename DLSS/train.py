@@ -73,8 +73,7 @@ def main(
     ):
 
     # Loading dataset
-    dataset = SRDataset(dataset_csv, crop_size=(64, 64), scaling=scaling)
-
+    dataset = SRDataset(dataset_csv, crop_size=(720, 720), scaling=scaling)
 
     # Test train split
     train_len = int(len(dataset) * train_split)
@@ -111,12 +110,12 @@ if __name__ == "__main__":
     print(f"Using device {device}")
 
     main(
-        model_path="models/SRREsnet_02.pth",
-        dataset_csv="data/train_x8.csv",
-        scaling=8,
+        model_path="models/SRREsNetx2.pth",
+        dataset_csv="data/train_x2.csv",
+        scaling=2,
         train_split=0.8,
         epochs=20,
         learning_rate=0.001,
-        batch_size=8,
+        batch_size=4,
         device=device
     )
