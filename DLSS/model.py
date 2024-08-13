@@ -68,88 +68,10 @@ class ResBlock(Module):
         return output
     
 
-class PixelSuffle(Module):
-
-    def __init__(self, n_channels: int, scaling: int = 2) -> None:
-        super(PixelSuffle, self).__init__()
-
-        # Convlutional layer increases the number of chanels by scaling**2
-        self.conv = nn.Conv2d(
-            in_channels=n_channels,
-            out_channels=n_channels * (scaling ** 2),
-            kernel_size=3,
-            padding="same"
-        )
-
-        # The extra channels are suffled to form a higher resolution image
-        self.pixel_suffle = nn.PixelShuffle(upscale_factor=scaling)
-        self.relu = nn.ReLU()
-
-    def forward(self, x) -> Tensor:
-
-        output = self.conv(x)
-        output = self.pixel_suffle(output)
-        output = self.relu(output)
-
-        return output
-
-
 class SRResNet(Module):
 
     def __init__(self, input_channels: int, n_channels: int, n_blocks: int, scaling: int = 4) -> None:
         super(SRResNet, self).__init__()
-
-        self.conv1 = ConvBlock(
-            in_channels=input_channels,
-            out_channels=n_channels,
-            kernel_size=9,
-            batchnorm=False,
-            activation="relu"
-        )
-
-        blocks = list()
-        for _ in range(n_blocks):
-            blocks.append(ResBlock(n_channels, 3))
-        self.res_blocks = nn.Sequential(*blocks)
-
-        self.conv2 = ConvBlock(
-            in_channels=n_channels,
-            out_channels=n_channels,
-            kernel_size=3,
-            batchnorm=True,
-            activation=None
-        )
-
-        self.subpixel_conv = PixelSuffle(
-            n_channels=n_channels,
-            scaling=scaling
-        )
-
-        self.conv3 = ConvBlock(
-            in_channels=n_channels,
-            out_channels=3,
-            kernel_size=3,
-            batchnorm=False,
-            activation="relu"
-        )
-
-    def forward(self, x):
-
-        output = self.conv1(x)
-        residual = output
-        output = self.res_blocks(output)
-        output = self.conv2(output)
-        output = output + residual
-        output = self.subpixel_conv(output)
-        output = self.conv3(output)
-
-        return output
-    
-
-class SRResNet_v2(Module):
-
-    def __init__(self, input_channels: int, n_channels: int, n_blocks: int, scaling: int = 4) -> None:
-        super(SRResNet_v2, self).__init__()
 
         self.upsample = nn.Upsample(scale_factor=scaling)
 
@@ -194,3 +116,27 @@ class SRResNet_v2(Module):
 
         return output
     
+
+class Discriminator(nn.Module):
+
+    def __init__(self, input_channels: int, n_channels: int, n_blocks: int) -> None:
+        super(Discriminator, self).__init__()
+        
+        layers = []
+        
+        layers.append(nn.Conv2d(input_channels, n_channels, kernel_size=3, stride=1, padding=1))
+        layers.append(nn.LeakyReLU(0.2, inplace=True))
+        
+        for i in range(1, n_blocks + 1):
+            layers.append(nn.Conv2d(n_channels * i, n_channels * (i + 1), kernel_size=3, stride=2, padding=1))
+            layers.append(nn.BatchNorm2d(n_channels * (i + 1)))
+            layers.append(nn.LeakyReLU(0.2, inplace=True))
+        
+        layers.append(nn.AdaptiveAvgPool2d(1))
+        layers.append(nn.Conv2d(n_channels * (n_blocks + 1), 1, kernel_size=1))
+        layers.append(nn.Sigmoid())
+        
+        self.model = nn.Sequential(*layers)
+    
+    def forward(self, x):
+        return self.model(x)

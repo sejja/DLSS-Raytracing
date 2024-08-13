@@ -27,7 +27,7 @@ def create_data_csv(high_res_dir: str, low_res_dir: str, csv_path: str) -> None:
         writer = csv.DictWriter(file, fieldnames=["low_res", "high_res" ])
         writer.writerows(data)
 
-def create_data_csv2d(high_res_dir: str, csv_path: str) -> None:
+def create_data_csv2(high_res_dir: str, csv_path: str) -> None:
     """
     Create csv file for div2k dataset with only highres images. High res images must
     then be downsampled before feeding them to the model.
@@ -62,4 +62,16 @@ def png_to_tensor(image_path: str) -> Tensor:
     tensor = FT.to_tensor(image)
 
     return tensor
+
+def tensor_to_png(tensor: Tensor, output_path: str) -> None:
+    """
+    Save a torch tensor as a PNG image.
+
+    Args:
+        tensor (torch.Tensor): The tensor to be saved as an image.
+        output_path (str): Path where the PNG image will be saved.
+    """
+
+    image = FT.to_pil_image(tensor)
+    image.save(output_path, format='PNG')
 

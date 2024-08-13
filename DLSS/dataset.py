@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
     import matplotlib.pyplot as plt
 
-    dataset = SRDataset("data/train_x2.csv", crop_size=(1080, 1080), scaling=2)
+    dataset = SRDataset("data/DIV2K/train_x2.csv", crop_size=(1080, 1080), scaling=2)
 
     for low_res, high_res in dataset:
 

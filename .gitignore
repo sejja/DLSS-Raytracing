@@ -5,3 +5,8 @@
 /Raytracing/.vs/Raytracing
 /Raytracing/x64
 /Raytracing/Raytracing/x64
+
+/DLSS/data
+__pycache__
+venv
+.vscode
