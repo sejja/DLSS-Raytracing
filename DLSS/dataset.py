@@ -1,57 +1,79 @@
-import csv
-from torchvision import transforms
+import torch
 from torch.utils.data import Dataset
-from torch import Tensor
-from typing import Tuple
-from utils import png_to_tensor
+import json
+import os
+from PIL import Image
+from utils import ImageTransform
 
 
 class SRDataset(Dataset):
+    """
+    A PyTorch Dataset to be used by a PyTorch DataLoader.
+    """
 
-    def __init__(self, data_csv: str, crop_size: Tuple[int, int] = (64, 64), scaling: int = 4) -> None:
-        
-        self.data = list()
-        with open(data_csv, "r") as file:
-            reader = csv.reader(file)
-            for row in reader:
-                self.data.append(row[0])
+    def __init__(self, data_dir, split, crop_size, scaling_factor, lr_img_type, hr_img_type):
+        """
+        Args:
+            data_folder: folder with JSON data files
+            split: one of 'train' or 'test'
+            crop_size: crop size of target HR images
+            scaling_factor: the input LR images will be downsampled from the target HR images by this factor; the scaling done in the super-resolution
+            lr_img_type: the format for the LR image supplied to the model; see convert_image() in utils.py for available formats
+            hr_img_type: the format for the HR image supplied to the model; see convert_image() in utils.py for available formats
+        """
 
+        self.data_dir = data_dir
+        self.split = split.lower()
         self.crop_size = crop_size
-        self.scaling = scaling
+        self.scaling_factor = int(scaling_factor)
+        self.lr_img_type = lr_img_type
+        self.hr_img_type = hr_img_type
 
-    def __len__(self) -> int:
-        return len(self.data)
-    
-    def __getitem__(self, index) -> Tuple[Tensor, Tensor]:
+        assert self.split in {"train", "test"}
+        assert lr_img_type in {'[0, 255]', '[0, 1]', '[-1, 1]', 'imagenet-norm'}
+        assert hr_img_type in {'[0, 255]', '[0, 1]', '[-1, 1]', 'imagenet-norm'}
+
+        # If this is a training dataset, then crop dimensions must be perfectly divisible by the scaling factor
+        # (If this is a test dataset, images are not cropped to a fixed size, so this variable isn't used)
+        if self.split == "train":
+            with open(os.path.join(data_dir, "train_images.json"), "r") as file:
+                self.images = json.load(file)
+        else:
+            with open(os.path.join(data_dir, "test_images.json"), "r") as file:
+                self.images = json.laod(file)
         
-        hr_path = self.data[index]
-        hr_image = png_to_tensor(hr_path)
+        # Select the correct set of transforms
+        self.transform = ImageTransform(split=self.split,
+                                         crop_size=self.crop_size,
+                                         scaling_factor=self.scaling_factor,
+                                         lr_img_type=self.lr_img_type,
+                                         hr_img_type=self.hr_img_type)
 
-        hr_image = transforms.functional.resize(hr_image, (self.crop_size[0], self.crop_size[1]))
-        lr_image = transforms.functional.resize(hr_image, (self.crop_size[0] // self.scaling, self.crop_size[1] // self.scaling))
+    def __getitem__(self, i):
+        """
+        This method is required to be defined for use in the PyTorch DataLoader.
 
-        return lr_image, hr_image
+        Args:
+            i: index to retrieve
+        Returns:
+            the 'i'th pair LR and HR images to be fed into the model
+        """
+
+        # Read image
+        img = Image.open(self.images[i], mode="r")
+        img = img.convert("RGB")
+        lr_img, hr_img = self.transform(img)
+
+        return lr_img, hr_img
     
+    def __len__(self):
+        """
+        This method is required to be defined for use in the PyTorch DataLoader.
 
-if __name__ == "__main__":
+        Returns:
+            size of this data (in number of images)
+        """
 
-    import matplotlib.pyplot as plt
-
-    dataset = SRDataset("data/DIV2K/train_x2.csv", crop_size=(1080, 1080), scaling=2)
-
-    for low_res, high_res in dataset:
-
-        low_res = low_res.permute(1, 2, 0)
-        high_res = high_res.permute(1, 2, 0)
-
-        fig, axes = plt.subplots(1, 2, figsize=(12,6))
-
-        axes[0].imshow(low_res)
-        axes[0].set_title("Low Resolution")
-
-        axes[1].imshow(high_res)
-        axes[1].set_title("High Resolution")
-
-        plt.tight_layout()
-        plt.show()
+        return len(self.images)
+    
 
