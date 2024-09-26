@@ -1,21 +1,24 @@
 import os
 import torch
-import matplotlib.pyplot as plt
 from utils import *
 from PIL import Image, ImageDraw, ImageFont
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Model checkpoints
-srgan_checkpoint = "./models/checkpoint_srgan.pth.tar"
-srresnet_checkpoint = "./models/checkpoint_srresnet.pth.tar"
+# # Model checkpoints
+# srgan_checkpoint = "./models/checkpoint_srgan.pth.tar"
+# srresnet_checkpoint = "./models/checkpoint_srresnet.pth.tar"
 
-# Load models
-srresnet = torch.load(srresnet_checkpoint)['model'].to(device)
+# # Load models
+# srresnet = torch.load(srresnet_checkpoint)['model'].to(device)
+# srresnet.eval()
+# srgan_generator = torch.load(srgan_checkpoint)['generator'].to(device)
+# srgan_generator.eval()
+
+srresnet = torch.load("./models/srresnet.pth").to(device)
 srresnet.eval()
-srgan_generator = torch.load(srgan_checkpoint)['generator'].to(device)
+srgan_generator = torch.load("./models/srgan.pth").to(device)
 srgan_generator.eval()
-
 
 def visualize_sr(img, i, halve=False):
     """
@@ -87,7 +90,6 @@ def visualize_sr(img, i, halve=False):
 
     return grid_img
 
-import csv
 
 if __name__ == '__main__':
 
@@ -98,3 +100,6 @@ if __name__ == '__main__':
 
     for i, img in enumerate(images):
         visualize_sr(img, i)
+
+    # visualize_sr("./data/COCO/val2014/COCO_val2014_000000579655.jpg", 0)
+    
