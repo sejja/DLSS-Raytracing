@@ -13,7 +13,7 @@ namespace Graphics {
 			virtual ~Cylinder() override;
 
 			// Override the function to test for intersections.
-			virtual bool TestIntersection(const Trace::Ray& castRay, glm::dvec3& intPoint,
+			virtual Trace::Hit TestIntersection(const Trace::Ray& castRay, glm::dvec3& intPoint,
 				glm::dvec3& localNormal, glm::dvec3& localColor) noexcept override;
 		};
 	}

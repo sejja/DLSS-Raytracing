@@ -1,5 +1,6 @@
 #include "Cone.h"
 #include <array>
+#include "../../Trace/Hit.h"
 
 namespace Graphics {
 	namespace Shapes {
@@ -16,9 +17,12 @@ namespace Graphics {
 		}
 
 		// The function to test for intersections.
-		bool Cone::TestIntersection(const Trace::Ray& castRay, glm::dvec3& intPoint,
+		Trace::Hit Cone::TestIntersection(const Trace::Ray& castRay, glm::dvec3& intPoint,
 			glm::dvec3& localNormal, glm::dvec3& localColor) noexcept
 		{
+			
+			Trace::Hit hit;
+
 			// Copy the ray and apply the backwards transform.
 			Trace::Ray bckRay = mTransform.InverseTransformRay(castRay);
 
@@ -151,9 +155,7 @@ namespace Graphics {
 				double u = atan2(y,x) / PI;
 				double v = z * 2 + 1;
 
-				mUVs = glm::dvec2(u, v);
-
-				return true;
+				return Trace::Hit(true, glm::dvec2(u, v));
 			}
 			else
 			{
@@ -178,23 +180,21 @@ namespace Graphics {
 						double y = validPOI.y;
 						double z = validPOI.z;
 
-						mUVs = glm::dvec2(x, y);
-
-						return true;
+						return Trace::Hit(true, glm::dvec2(x, y));
 					}
 					else
 					{
-						return false;
+						return Trace::Hit(false);
 					}
 				}
 				else
 				{
-					return false;
+					return Trace::Hit(false);
 				}
 
 			}
 
-			return false;
+			return Trace::Hit(false);
 		}
 	}
 }

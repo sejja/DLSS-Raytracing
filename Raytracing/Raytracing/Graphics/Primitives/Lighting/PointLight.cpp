@@ -52,7 +52,7 @@ namespace Graphics {
 				for (auto& sceneObject : objlist) {
 					// If the object is not the current object.
 					if (sceneObject != obj)
-						validInt = sceneObject->TestIntersection(lightRay, poi, poiNormal, poiColor);
+						validInt = sceneObject->TestIntersection(lightRay, poi, poiNormal, poiColor).hit;
 
 					if (validInt) break;
 				}

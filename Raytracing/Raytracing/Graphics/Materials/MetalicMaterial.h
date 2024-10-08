@@ -26,7 +26,7 @@ namespace Graphics {
 				const std::vector<std::shared_ptr<Primitives::Lighting::Light>>& lightList,
 				const std::shared_ptr<Composition::Object>& currObject,
 				const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
-				const Trace::Ray& camRay) const noexcept override;
+				const Trace::Ray& camRay, glm::dvec2 uv, int reflectioncount) const noexcept override;
 			DONTDISCARD glm::dvec3 ComputeSpecular(
 				const std::vector<std::shared_ptr<Composition::Object>>& objList,
 				const std::vector<std::shared_ptr<Primitives::Lighting::Light>>& lightList,

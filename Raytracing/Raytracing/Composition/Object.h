@@ -13,6 +13,7 @@
 #include <glm/glm.hpp>
 #include "../Math/Transform.h"
 #include "../CommonDefines.h"
+#include "../Trace/Hit.h"
 
 namespace Graphics {
 	namespace Primitives {
@@ -30,14 +31,13 @@ namespace Composition {
 
 	#pragma region //Methods
 		inline void SetTransform(const Math::Transform& transform) noexcept;
-		DONTDISCARD virtual inline bool TestIntersection(const Trace::Ray& ray, glm::dvec3 & inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) noexcept;
+		DONTDISCARD virtual inline Trace::Hit TestIntersection(const Trace::Ray& ray, glm::dvec3 & inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) noexcept;
 		DONTDISCARD virtual inline bool CloseEnough(const double f1, const double f2) noexcept;
 		void inline SetColor(const glm::dvec3& color) noexcept;
 		bool AssignMaterial(const std::shared_ptr<Graphics::Primitives::Material>& objMaterial) noexcept;
 		DONTDISCARD inline bool HasMaterial() const noexcept;
 		DONTDISCARD inline std::shared_ptr<Graphics::Primitives::Material> GetMaterial() const noexcept;
 		DONTDISCARD inline glm::dvec3 GetColor() const noexcept;
-		DONTDISCARD inline glm::dvec2 GetUV() const noexcept;
 	#pragma endregion
 
 	#pragma region //Members
@@ -45,7 +45,6 @@ namespace Composition {
 		glm::dvec3 mColor;
 		Math::Transform mTransform;
 		std::shared_ptr<Graphics::Primitives::Material> mMaterial;
-		glm::dvec2 mUVs;
 	#pragma endregion
 	};
 
@@ -72,7 +71,7 @@ namespace Composition {
 	*
 	*
 	*/ // ---------------------------------------------------------------------
-	bool Object::TestIntersection(const Trace::Ray& ray, glm::dvec3& inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) noexcept {
+	Trace::Hit Object::TestIntersection(const Trace::Ray& ray, glm::dvec3& inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) noexcept {
 		return false;
 	}
 
@@ -112,10 +111,6 @@ namespace Composition {
 		return mColor;
 	}
 
-	glm::dvec2 Object::GetUV() const noexcept
-	{
-		return mUVs;
-	}
 }
 
 #endif

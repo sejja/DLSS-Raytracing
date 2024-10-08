@@ -34,7 +34,7 @@ namespace Graphics {
 		*
 		*   Tests whether a ray intersects with the sphere.
 		*/ // ---------------------------------------------------------------------
-		bool Sphere::TestIntersection(const Trace::Ray& ray, glm::dvec3& inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) noexcept {
+		Trace::Hit Sphere::TestIntersection(const Trace::Ray& ray, glm::dvec3& inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) noexcept {
 
 			// Transform the ray into the object's space.
 			const Trace::Ray newRay = mTransform.InverseTransformRay(ray);
@@ -43,6 +43,8 @@ namespace Graphics {
 
 			// Test whether we actually have an intersection.
 			const double intTest = (b * b) - 4.f * (glm::dot(newRay.GetOrigin(), newRay.GetOrigin()) - 1.f);
+
+			glm::dvec2 uvs;
 
 			// If the discriminant is less than 0, then there is no intersection.
 			if (intTest > 0.f) {
@@ -72,10 +74,10 @@ namespace Graphics {
 					u /= PI;
 					v /= PI;
 
-					mUVs = glm::dvec2(u, v);
+					uvs = glm::dvec2(u, v);
 				}
 
-				return true; 
+				return Trace::Hit(true,uvs); 
 			} else
 				return false;
 		}

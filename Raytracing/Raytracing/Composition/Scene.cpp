@@ -6,6 +6,8 @@
 //	Copyright © 2024. All Rights reserved
 //
 
+#include <iostream>
+#include <thread>
 #include "Scene.h"
 #include "../Graphics/Primitives/Lighting/PointLight.h"
 #include "../Graphics/Primitives/Material.h"
@@ -14,6 +16,7 @@
 #include "../Graphics/Shapes/Sphere.h"
 #include "../Graphics/Shapes/Cone.h"
 #include "../Graphics/Shapes/Cylinder.h"
+#include "../Graphics/Shapes/CustomShape.h"
 #include "../Graphics/Textures/Checker.h"
 #include "../Graphics/Textures/Sprite.h"
 
@@ -131,61 +134,108 @@ namespace Composition {
 	*   Renders the whole Scene into out framebuffer
 	*/ // ---------------------------------------------------------------------
 	bool Scene::Render(Core::FrameBuffer& fb) {
+		//start clock
+		auto start = std::chrono::high_resolution_clock::now();
+
 		// Get the dimensions of the output image.
 		const size_t xSize = fb.GetWidth();
 		const size_t ySize = fb.GetHeight();
 
-		// Loop over each pixel in our image.
-		Trace::Ray cameraRay;
 		const double xFact = 1.0 / (static_cast<double>(xSize) / 2.0);
 		const double yFact = 1.0 / (static_cast<double>(ySize) / 2.0);
 		constexpr double minDist = std::numeric_limits<double>::max();
 		constexpr double maxDist = std::numeric_limits<double>::min();
 		double normX = - 1.0;
 		double normY = - 1.0;
-		for (size_t y = 0; y < ySize; y++) {
-			normY += yFact;
-			for (size_t x = 0; x < xSize; x++) {
-				// Normalize the x and y coordinates.
-				 normX += xFact;
 
-				// Generate the ray for this pixel.
-				mCamera.GenerateRay(normX, normY, cameraRay);
+		// Get the number of available threads.
+		const size_t numThreads = std::thread::hardware_concurrency();
 
-				// Test for intersections with all objects in the scene.
-				std::shared_ptr<Composition::Object> closestObject = nullptr;
-				glm::dvec3 closestIntPoint = glm::dvec3(0.f);
-				glm::dvec3 closestLocalNormal = glm::dvec3(0.f);
-				glm::dvec3 closestLocalColor = glm::dvec3(0.f);
+		//Find the low-nearest square (from 12, it would be 9. From 5, it would be 4. From 3, it would be 2)
+		const size_t closestPower = static_cast<size_t>(std::sqrt(numThreads));
 
-				/* Compute the illumination for the closest object, assuming that there
-					was a valid intersection. */
-				if (CastRay(cameraRay, closestObject, closestIntPoint, closestLocalNormal, closestLocalColor)) {
-					// Check if the object has a material.
-					if (closestObject->HasMaterial()) {
-						Graphics::Primitives::Material::mReflectionRayCount = 0;
-						// Use the material to compute the color.
-						glm::dvec3 matColor = closestObject->GetMaterial()->ComputeColor(mObjects, mLights,
-							closestObject, closestIntPoint,
-							closestLocalNormal, cameraRay);
-						sf::Uint8 red = static_cast<sf::Uint8>(std::min(matColor.x * 255, 255.0));
-						sf::Uint8 green = static_cast<sf::Uint8>(std::min(matColor.y * 255, 255.0));
-						sf::Uint8 blue = static_cast<sf::Uint8>(std::min(matColor.z * 255, 255.0));
-						fb.SetColor(x, y, sf::Color(red, green, blue));
-					} else {
-						// Use the basic method to compute the color.
-						glm::dvec3 matColor = Graphics::Primitives::Material::ComputeColorDiffuse(mObjects, mLights,
-							closestObject, closestIntPoint,
-							closestLocalNormal, closestObject->GetColor());
-						sf::Uint8 red = static_cast<sf::Uint8>(std::min(matColor.x * 255, 255.0));
-						sf::Uint8 green = static_cast<sf::Uint8>(std::min(matColor.y * 255, 255.0));
-						sf::Uint8 blue = static_cast<sf::Uint8>(std::min(matColor.z * 255, 255.0));
-						fb.SetColor(x, y, sf::Color(red, green, blue));
+		// Calculate the tile size for each thread.
+		const size_t tileSizeX = xSize / (numThreads / closestPower);
+		const size_t tileSizeY = ySize / (numThreads - static_cast<size_t>(std::pow(closestPower, 2)));
+
+		std::atomic_int pixeldrawn = 0;
+
+		// Create a vector to hold the threads.
+		std::vector<std::thread> threads;
+
+		// Loop over each tile and assign it to a thread.
+		for (size_t tileY = 0; tileY < ySize; tileY += tileSizeY) {
+			for (size_t tileX = 0; tileX < xSize; tileX += tileSizeX) {
+				auto renderTile = [this, tileX, tileSizeX, xSize, tileY, tileSizeY, ySize, &fb, &pixeldrawn]() {
+					const size_t boundx = std::min(tileX + tileSizeX, xSize);
+					const size_t boundy = std::min(tileY + tileSizeY, ySize);
+
+					// Loop over each pixel in the tile.
+					for (size_t y = tileY; y < boundy; y++) {
+						for (size_t x = tileX; x < boundx; x++) {
+
+							// Loop over each pixel in our image.
+							Trace::Ray cameraRay;
+
+							// Normalize the x and y coordinates.
+                            const double normX = (2.0 * x) / static_cast<double>(xSize) - 1.0;
+							const double normY = (2.0 * y) / static_cast<double>(ySize) - 1.0;
+							// Generate the ray for this pixel.
+							mCamera.GenerateRay(normX, normY, cameraRay);
+
+							// Test for intersections with all objects in the scene.
+							std::shared_ptr<Composition::Object> closestObject = nullptr;
+							glm::dvec3 closestIntPoint = glm::dvec3(0.f);
+							glm::dvec3 closestLocalNormal = glm::dvec3(0.f);
+							glm::dvec3 closestLocalColor = glm::dvec3(0.f);
+
+							Trace::Hit hit = CastRay(cameraRay, closestObject, closestIntPoint, closestLocalNormal, closestLocalColor);
+
+							/* Compute the illumination for the closest object, assuming that there
+								was a valid intersection. */
+							if (hit.hit) {
+								// Check if the object has a material.
+								if (closestObject->HasMaterial()) {
+									// Use the material to compute the color.
+									glm::dvec3 matColor = closestObject->GetMaterial()->ComputeColor(mObjects, mLights,
+										closestObject, closestIntPoint,
+										closestLocalNormal, cameraRay, hit.uUV, 0);
+									sf::Uint8 red = static_cast<sf::Uint8>(std::min(matColor.x * 255, 255.0));
+									sf::Uint8 green = static_cast<sf::Uint8>(std::min(matColor.y * 255, 255.0));
+									sf::Uint8 blue = static_cast<sf::Uint8>(std::min(matColor.z * 255, 255.0));
+									fb.SetColor(x, y, sf::Color(red, green, blue));
+								}
+								else {
+									// Use the basic method to compute the color.
+									glm::dvec3 matColor = Graphics::Primitives::Material::ComputeColorDiffuse(mObjects, mLights,
+										closestObject, closestIntPoint,
+										closestLocalNormal, closestObject->GetColor());
+									sf::Uint8 red = static_cast<sf::Uint8>(std::min(matColor.x * 255, 255.0));
+									sf::Uint8 green = static_cast<sf::Uint8>(std::min(matColor.y * 255, 255.0));
+									sf::Uint8 blue = static_cast<sf::Uint8>(std::min(matColor.z * 255, 255.0));
+									fb.SetColor(x, y, sf::Color(red, green, blue));
+								}
+							}
+
+							pixeldrawn++;
+						}
 					}
-				}
+					};
+
+				threads.emplace_back(renderTile);
 			}
-			normX = -1.0;
 		}
+
+		// Wait for all threads to finish.
+		for (auto& thread : threads) {
+			thread.join();
+		}
+
+
+		//stop clock, print time
+		auto end = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double> elapsed = end - start;
+		std::cout << "Time taken: " << elapsed.count() << " seconds" << std::endl;
 
 		return true;
 	}
@@ -195,20 +245,23 @@ namespace Composition {
 	*
 	*   Casts a ray into the scene
 	*/ // ---------------------------------------------------------------------
-	bool Scene::CastRay(const Trace::Ray& ray, std::shared_ptr<Object>& closestobj, 
+	Trace::Hit Scene::CastRay(const Trace::Ray& ray, std::shared_ptr<Object>& closestobj, 
 									glm::dvec3& inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) noexcept {
 		glm::dvec3 closestIntersection = glm::dvec3(0.f);
 		glm::dvec3 closestNormal = glm::dvec3(0.f);
 		glm::dvec3 closestColor = glm::dvec3(0.f);
 		double minDist = std::numeric_limits<double>::max();
 		bool foundIntersection = false;
+		glm::dvec2 closestUV = glm::dvec2();
 
 		// Loop over each object in the scene.
 		for (auto& obj : mObjects) {
 
+			Trace::Hit hit = obj->TestIntersection(ray, closestIntersection, closestNormal, closestColor);
+
 			// Test if we have a valid intersection.
 			// If we have a valid intersection, change pixel color to red.
-			if (obj->TestIntersection(ray, closestIntersection, closestNormal, closestColor)) {
+			if (hit.hit) {
 				foundIntersection = true;
 
 				// Calculate the distance from the camera to the intersection point.
@@ -221,10 +274,11 @@ namespace Composition {
 					innormal = closestNormal;
 					outcolor = closestColor;
 					closestobj = obj;
+					closestUV = hit.uUV;
 				}
 			}
 		}
 
-		return foundIntersection;
+		return Trace::Hit(foundIntersection, closestUV);
 	}
 }

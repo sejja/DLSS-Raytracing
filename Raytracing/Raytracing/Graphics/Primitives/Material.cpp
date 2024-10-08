@@ -34,7 +34,7 @@ namespace Graphics {
 			const std::vector<std::shared_ptr<Lighting::Light>>& lightList,
 			const std::shared_ptr<Composition::Object>& currObject,
 			const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
-			const Trace::Ray& camRay) const noexcept {
+			const Trace::Ray& camRay, glm::dvec2 uv, int reflectioncount) const noexcept {
 			return mColor;
 		}
 
@@ -86,7 +86,7 @@ namespace Graphics {
 																		const std::vector<std::shared_ptr<Lighting::Light>>& lightList, 
 																		const std::shared_ptr<Composition::Object>& currObject, 
 																		const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
-																		const Trace::Ray& camRay) const noexcept {
+																		const Trace::Ray& camRay, glm::dvec2 uv, int reflectioncount) const noexcept {
 			const Trace::Ray reflectionRay(intersectionPoint, intersectionPoint + glm::reflect(camRay.GetEndPoint() - camRay.GetOrigin(), normalPoint));
 
 			std::shared_ptr<Composition::Object> closestObject = nullptr;
@@ -97,12 +97,12 @@ namespace Graphics {
 
 			// Cast the reflection ray.
 			if (CastRay(reflectionRay, objList, closestObject, closestinpoint, closestinnormal, closestoutcolor)
-				&& mReflectionRayCount < mReflectionCountMax) {
-				mReflectionRayCount++;
+				&& reflectioncount < mReflectionCountMax) {
+				reflectioncount++;
 				
 				// Check if the closest object has a material.
 				if (closestObject->HasMaterial())
-					matColor = closestObject->GetMaterial()->ComputeColor(objList, lightList, closestObject, closestinpoint, closestinnormal, reflectionRay);
+					matColor = closestObject->GetMaterial()->ComputeColor(objList, lightList, closestObject, closestinpoint, closestinnormal, reflectionRay, uv, reflectioncount);
 				else
 					matColor = ComputeColorDiffuse(objList, lightList, closestObject, closestinpoint, closestinnormal, closestObject->GetColor());
 			}
@@ -128,7 +128,7 @@ namespace Graphics {
 			// Loop through all of the objects in the scene.
 			for (auto& obj : objList)
 				// Check for intersections with the current object.
-				if (obj->TestIntersection(ray, intPoint, localNormal, localColor)) {
+				if (obj->TestIntersection(ray, intPoint, localNormal, localColor).hit) {
 					foundIntersection = true;
 					const double dist = glm::length(intPoint - ray.GetOrigin());
 					// Check if the intersection is the closest one.

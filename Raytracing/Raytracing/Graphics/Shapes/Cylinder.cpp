@@ -15,7 +15,7 @@ namespace Graphics {
 		}
 
 		// The function to test for intersections.
-		bool Cylinder::TestIntersection(const Trace::Ray& castRay, glm::dvec3& intPoint,
+		Trace::Hit Cylinder::TestIntersection(const Trace::Ray& castRay, glm::dvec3& intPoint,
 			glm::dvec3& localNormal, glm::dvec3& localColor) noexcept
 		{
 			// Copy the ray and apply the backwards transform.
@@ -166,9 +166,7 @@ namespace Graphics {
 				double u = atan2(y, x) / PI;
 				double v = z;
 
-				mUVs = glm::dvec2(u, v);
-
-				return true;
+				return Trace::Hit(true, glm::dvec2(u, v));
 			}
 			else
 			{
@@ -193,22 +191,21 @@ namespace Graphics {
 						double y = validPOI.y;
 						double z = validPOI.z;
 
-						mUVs = glm::dvec2(x, y);
-
-						return true;
+						
+						return Trace::Hit(true, glm::dvec2(x, y));
 					}
 					else
 					{
-						return false;
+						return Trace::Hit(false);
 					}
 				}
 				else
 				{
-					return false;
+					return Trace::Hit(false);
 				}
 			}
 
-			return false;
+			return Trace::Hit(false);
 		}
 	}
 }

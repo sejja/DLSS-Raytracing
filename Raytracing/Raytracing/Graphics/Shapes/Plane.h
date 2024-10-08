@@ -22,7 +22,7 @@ namespace Graphics {
 #pragma endregion
 
 #pragma region //Methods
-			bool TestIntersection(const Trace::Ray& ray, glm::dvec3& inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) noexcept override;
+			Trace::Hit TestIntersection(const Trace::Ray& ray, glm::dvec3& inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) noexcept override;
 #pragma endregion
 
 #pragma region //Members

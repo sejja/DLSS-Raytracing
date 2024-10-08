@@ -32,7 +32,7 @@ namespace Graphics {
 				const std::vector<std::shared_ptr<Lighting::Light>>& lightList,
 				const std::shared_ptr<Composition::Object>& currObject,
 				const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
-				const Trace::Ray& camRay) const noexcept;
+				const Trace::Ray& camRay, glm::dvec2 uv, int reflectioncount = 0) const noexcept;
 			DONTDISCARD static glm::dvec3 ComputeColorDiffuse(
 				const std::vector<std::shared_ptr<Composition::Object>>& objList,
 				const std::vector<std::shared_ptr<Lighting::Light>>& lightList,
@@ -44,7 +44,7 @@ namespace Graphics {
 				const std::vector<std::shared_ptr<Lighting::Light>>& lightList,
 				const std::shared_ptr<Composition::Object>& currObject,
 				const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint,
-				const Trace::Ray& camRay) const noexcept;
+				const Trace::Ray& camRay, glm::dvec2 uv, int reflectioncount) const noexcept;
 			bool CastRay(const Trace::Ray& ray, 
 								const std::vector<std::shared_ptr<Composition::Object>>& objList,	
 								std::shared_ptr<Composition::Object>& closestobj, 
@@ -52,8 +52,7 @@ namespace Graphics {
 			void SetTexture(const std::shared_ptr<Texture>& texture) noexcept;
 #pragma endregion
 
-#pragma region //Members
-			inline static int mReflectionRayCount;
+#pragma region //Membersd
 			inline static int mReflectionCountMax;
 		protected:
 			glm::dvec3 mColor;

@@ -7,6 +7,7 @@
 //
 
 #include "FrameBuffer.h"
+#include <mutex>
 
 namespace Core {
     // ------------------------------------------------------------------------

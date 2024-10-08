@@ -29,7 +29,7 @@ namespace Graphics {
 		*
 		*   Tests whether a ray intersects witht the plane
 		*/ // ---------------------------------------------------------------------
-		bool Plane::TestIntersection(const Trace::Ray& ray, glm::dvec3& inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) noexcept {
+		Trace::Hit Plane::TestIntersection(const Trace::Ray& ray, glm::dvec3& inpoint, glm::dvec3& innormal, glm::dvec3& outcolor) noexcept {
 			const Trace::Ray backray = mTransform.InverseTransformRay(ray);
 
 			const glm::dvec3 rayDir = glm::normalize(backray.GetEndPoint() - backray.GetOrigin());
@@ -48,8 +48,7 @@ namespace Graphics {
 						inpoint = mTransform.ApplyTransform(backray.GetOrigin() + (rayDir * t));
 						innormal = glm::normalize(mTransform.ApplyTransform(glm::dvec3(0.f, 0.f, -1.f)) - mTransform.ApplyTransform(glm::dvec3(0.0f, 0.0f, 0.0f)));
 						outcolor = mColor;
-						mUVs = glm::dvec2(u, v);
-						return true;
+						return Trace::Hit(true, glm::dvec2(u, v));
 					}
 				}
 			}

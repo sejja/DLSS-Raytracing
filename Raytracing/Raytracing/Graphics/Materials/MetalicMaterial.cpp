@@ -17,7 +17,6 @@ namespace Graphics {
 		*/ // ---------------------------------------------------------------------
 		MetalicMaterial::MetalicMaterial() noexcept :
 			mColor{ 0.0f }, mShininess(0), mReflectivity(0) {
-			mReflectionRayCount = 0;
 			mReflectionCountMax = 3;
 		}
 
@@ -37,7 +36,7 @@ namespace Graphics {
 																	const std::vector<std::shared_ptr<Primitives::Lighting::Light>>& lightList, 
 																	const std::shared_ptr<Composition::Object>& currObject, 
 																	const glm::dvec3& intersectionPoint, const glm::dvec3& normalPoint, 
-																	const Trace::Ray& camRay) const noexcept {
+																	const Trace::Ray& camRay, glm::dvec2 uv, int reflectioncount) const noexcept {
 			// Define the initial material colors.
 			glm::dvec3 matColor = glm::dvec3(0.f);
 			glm::dvec3 refColor = glm::dvec3(0.f);
@@ -45,11 +44,11 @@ namespace Graphics {
 			glm::dvec3 spcColor = glm::dvec3(0.f);
 
 			// Compute the diffuse component.
-			difColor = ComputeColorDiffuse(objList, lightList, currObject, intersectionPoint, normalPoint, mTexture != nullptr ? mTexture->GetColor(currObject->GetUV()) : mColor);
+			difColor = ComputeColorDiffuse(objList, lightList, currObject, intersectionPoint, normalPoint, mTexture != nullptr ? mTexture->GetColor(uv) : mColor);
 
 			// Compute the reflection component.
 			if (mReflectivity > 0.0)
-				refColor = ComputeColorReflection(objList, lightList, currObject, intersectionPoint, normalPoint, camRay);
+				refColor = ComputeColorReflection(objList, lightList, currObject, intersectionPoint, normalPoint, camRay, uv, reflectioncount);
 
 			// Combine reflection and diffuse components.
 			matColor = (refColor * mReflectivity) + (difColor * (1 - mReflectivity));
@@ -94,7 +93,7 @@ namespace Graphics {
 				glm::dvec3 poiColor = glm::dvec3();;
 				bool validInt = false;
 				for (auto& sceneObject : objList) {
-					validInt = sceneObject->TestIntersection(lightRay, poi, poiNormal, poiColor);
+					validInt = sceneObject->TestIntersection(lightRay, poi, poiNormal, poiColor).hit;
 					if (validInt)
 						break;
 				}
