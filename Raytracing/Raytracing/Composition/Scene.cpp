@@ -19,6 +19,7 @@
 #include "../Graphics/Shapes/CustomShape.h"
 #include "../Graphics/Textures/Checker.h"
 #include "../Graphics/Textures/Sprite.h"
+#include "../Core/ThreadPool.h"
 
 namespace Composition {
 
@@ -154,19 +155,19 @@ namespace Composition {
 		//Find the low-nearest square (from 12, it would be 9. From 5, it would be 4. From 3, it would be 2)
 		const size_t closestPower = static_cast<size_t>(std::sqrt(numThreads));
 
+		const size_t reducingfactor = 200;
 		// Calculate the tile size for each thread.
-		const size_t tileSizeX = xSize / (numThreads / closestPower);
-		const size_t tileSizeY = ySize / (numThreads - static_cast<size_t>(std::pow(closestPower, 2)));
+		const size_t tileSizeX = xSize / reducingfactor;
+		const size_t tileSizeY = ySize / reducingfactor;
 
-		std::atomic_int pixeldrawn = 0;
-
+		{
 		// Create a vector to hold the threads.
-		std::vector<std::thread> threads;
+		ThreadPool pool(numThreads);
 
 		// Loop over each tile and assign it to a thread.
 		for (size_t tileY = 0; tileY < ySize; tileY += tileSizeY) {
 			for (size_t tileX = 0; tileX < xSize; tileX += tileSizeX) {
-				auto renderTile = [this, tileX, tileSizeX, xSize, tileY, tileSizeY, ySize, &fb, &pixeldrawn]() {
+				auto renderTile = [this, tileX, tileSizeX, xSize, tileY, tileSizeY, ySize, &fb]() {
 					const size_t boundx = std::min(tileX + tileSizeX, xSize);
 					const size_t boundy = std::min(tileY + tileSizeY, ySize);
 
@@ -216,19 +217,14 @@ namespace Composition {
 									fb.SetColor(x, y, sf::Color(red, green, blue));
 								}
 							}
-
-							pixeldrawn++;
 						}
 					}
 					};
 
-				threads.emplace_back(renderTile);
+				pool.enqueue(renderTile);
 			}
 		}
 
-		// Wait for all threads to finish.
-		for (auto& thread : threads) {
-			thread.join();
 		}
 
 

@@ -152,5 +152,8 @@
     <ClInclude Include="Trace\Hit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\ThreadPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
